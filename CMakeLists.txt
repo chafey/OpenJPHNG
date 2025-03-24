@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.11..3.31)
+cmake_minimum_required(VERSION 3.14)
 
-project(OpenJPH, LANGUAGES CXX)
+project(OpenJPH LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -40,9 +40,14 @@ add_subdirectory(src)
 # The executable code is here
 #add_subdirectory(apps)
 
+cmake_policy(SET CMP0135 OLD)
+
+enable_testing()
+
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
-if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING)
-    add_subdirectory(tests)
-endif()
-    add_subdirectory(tests)
+#if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING) AND BUILD_TESTING)
+#    add_subdirectory(tests)
+#endif()
+
+add_subdirectory(tests)

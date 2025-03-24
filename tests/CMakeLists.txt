@@ -1,8 +1,9 @@
 include(FetchContent)
 FetchContent_Declare(
   googletest
+  #DOWNLOAD_EXTRACT_TIMESTAMP
   # Specify the commit you depend on and update it regularly.
-  URL https://github.com/google/googletest/archive/5376968f6948923e2411081fd9372e71a59d8e77.zip
+  URL https://github.com/google/googletest/archive/6910c9d9165801d8827d628cb72eb7ea9dd538c5.zip
 )
 FetchContent_MakeAvailable(googletest)
 

@@ -1,7 +1,15 @@
 #include <openjph/wavelet/general/forward-reversible.h>
+#include <gtest/gtest.h>
 
+namespace {
 
-int main(int argc, char** argv) {
+TEST(BasicTest, Positive) {
+    openjph::wavelet::reversible::general::ForwardTransform xform;
+}
+
+/*int main(int argc, char** argv) {
     openjph::wavelet::reversible::general::ForwardTransform xform;
     return 0;
+}*/
+
 }
