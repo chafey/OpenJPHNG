@@ -11,6 +11,6 @@ FetchContent_MakeAvailable(googletest)
 #find_package(GTest REQUIRED)
 
 # Include Google Test module
-include(GoogleTest)
 
 add_subdirectory(openjph)
+

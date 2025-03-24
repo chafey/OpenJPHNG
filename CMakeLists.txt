@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.14)
 
 project(OpenJPH LANGUAGES CXX)
 
+cmake_policy(SET CMP0135 OLD)
+
 set(CMAKE_CXX_STANDARD 17)
 
 # set the build type if not specified
@@ -40,8 +42,8 @@ add_subdirectory(src)
 # The executable code is here
 #add_subdirectory(apps)
 
-cmake_policy(SET CMP0135 OLD)
 
+include(CTest)
 enable_testing()
 
 # Testing only available if this is the main app

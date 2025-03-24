@@ -1,9 +1,7 @@
 add_executable(openjph-wavelet-general-test forward-reversible_test.cpp)
 
-target_link_libraries(openjph-wavelet-general-test PRIVATE openjph-wavelet-general gtest_main)
+target_link_libraries(openjph-wavelet-general-test PUBLIC gtest gtest_main openjph-wavelet-general)
 
+include (GoogleTest)
 
-# Now simply link against gtest or gtest_main as needed. Eg
-#add_executable(example example.cpp)
-#target_link_libraries(example gtest_main)
-add_test(NAME BasicTest COMMAND openjph-wavelet-general-test)
+gtest_discover_tests(openjph-wavelet-general-test) # Runs GTest with CTest
