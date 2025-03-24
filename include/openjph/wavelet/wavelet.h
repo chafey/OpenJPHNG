@@ -1,7 +1,7 @@
-#ifndef OPENJPH_ALGO_WAVELET_H
-#define OPENJPH_ALGO_WAVELET_H
+#ifndef OPENJPH_WAVELET_H
+#define OPENJPH_WAVELET_H
 
-#include "common.h"
+#include <openjph/common.h>
 #include <cassert>
 //#include <cstddef>
 #include <cstdio>
@@ -9,14 +9,15 @@
 
 #pragma once
 
-namespace openjph_algo {
+namespace openjph {
+
+    class line_buf;
 
     namespace wavelet {
 
         using namespace openjph;
         using namespace std;
 
-        class line_buf;
         union lifting_step;
         class param_atk;
 
@@ -43,7 +44,7 @@ namespace openjph_algo {
             */
             class ForwardTransform {
                 public:
-                    virtual ~ForwardTransform() = default;
+                    virtual ~ForwardTransform() {};
                     virtual void VerticalStep(
                         const lifting_step* s,
                         const line_buf* sig,
@@ -63,7 +64,7 @@ namespace openjph_algo {
 
             class InverseTransform {
                 public:
-                    virtual ~InverseTransform() = default;
+                    virtual ~InverseTransform() {};
                     virtual void VerticalStep() = 0;
                     virtual void HorizonatlSyn() = 0;
             };
@@ -106,5 +107,5 @@ namespace openjph_algo {
             };
         }; // namespace irreversible
     }; // namespace wavelet
-}; // namespace openjph_algo
+}; // namespace openjph
 #endif

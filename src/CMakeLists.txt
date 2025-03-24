@@ -1,12 +1,12 @@
 
 # Note that headers are optional, and do not affect add_library, but they will not
 # show up in IDEs unless they are listed in add_library.
-#file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${ModernCMakeExample_SOURCE_DIR}/include/modern/*.hpp")
+#file(GLOB HEADER_LIST CONFIGURE_DEPENDS "${OpenJPH_SOURCE_DIR}/include/openjph/*.hpp")
 
 # Make an automatic library - will be static or dynamic based on user setting
-#add_library(OpenJPHLib lib.cpp ${HEADER_LIST})
+#add_library(OpenJPH lib.cpp ${HEADER_LIST})
 
-add_subdirectory(openjph-algo)
+add_subdirectory(openjph)
 
 # We need this directory, and users of our library will need it too
 #target_include_directories(modern_cpp_lib PUBLIC ../include)

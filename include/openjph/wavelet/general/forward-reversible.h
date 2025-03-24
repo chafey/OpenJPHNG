@@ -1,8 +1,8 @@
-#include <openjph-algo/openjph-algo-wavelet.h>
+#include <openjph/wavelet/wavelet.h>
 
-namespace openjph_algo::wavelet::reversible::generic {
+namespace openjph::wavelet::reversible::general {
 
-    class ForwardTransform : openjph_algo::wavelet::reversible::ForwardTransform {
+    class ForwardTransform : openjph::wavelet::reversible::ForwardTransform {
         public:
             virtual ~ForwardTransform();
             virtual void VerticalStep(
@@ -23,4 +23,4 @@ namespace openjph_algo::wavelet::reversible::generic {
 
     };
 
-} // namespace openjph_algo::wavelet::reversible::generic
+} // namespace openjph::wavelet::reversible::general

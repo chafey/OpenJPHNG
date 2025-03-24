@@ -1,13 +1,13 @@
-#include <openjph-algo/openjph-algo-wavelet.h>
-#include <openjph-algo/lifting_step.h>
-#include <openjph-algo/line_buf.h>
-#include <openjph-algo/wavelet/generic/forward-reversible.h>
+#include <openjph/wavelet/wavelet.h>
+#include <openjph/wavelet/lifting_step.h>
+#include <openjph/line_buf.h>
+#include <openjph/wavelet/general/forward-reversible.h>
 
-using namespace openjph_algo;
+using namespace openjph;
 using namespace wavelet;
 using namespace reversible;
 
-generic::ForwardTransform::~ForwardTransform() {
+general::ForwardTransform::~ForwardTransform() {
 
 }
 
@@ -118,7 +118,7 @@ void gen_rev_vert_step64(const lifting_step* s, const line_buf* sig,
   }
 }
 
-void generic::ForwardTransform::VerticalStep(
+void general::ForwardTransform::VerticalStep(
     const lifting_step* s,
     const line_buf* sig,
     const line_buf* other,
@@ -143,7 +143,7 @@ void generic::ForwardTransform::VerticalStep(
     }
 }
 
-void generic::ForwardTransform::HorizontalAna(
+void general::ForwardTransform::HorizontalAna(
     const param_atk* atk,
     const line_buf* ldst,
     const line_buf* hdst,

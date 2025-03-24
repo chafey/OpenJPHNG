@@ -12,7 +12,7 @@
 #endif
 
 namespace openjph {
-    class noncopyable {
+    /*class noncopyable {
         protected:
             noncopyable() = default;
             ~noncopyable() = default;
@@ -20,7 +20,7 @@ namespace openjph {
             noncopyable& operator=(const noncopyable&) = delete;
             noncopyable(noncopyable &&) = delete;
             noncopyable &operator=(noncopyable &&) = delete;
-    };
+    };*/
 
 /////////////////////////////////////////////////////////////////////////////
 //                               types

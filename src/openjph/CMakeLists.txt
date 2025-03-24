@@ -11,7 +11,6 @@
 
 add_subdirectory(wavelet)
 
-
 # This depends on (header only) boost
 #target_link_libraries(modern_cpp_lib PRIVATE Boost::boost)
 

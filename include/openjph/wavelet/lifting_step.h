@@ -1,8 +1,8 @@
 #pragma once
 
-#include "common.h"
+#include <openjph/common.h>
 
-namespace openjph_algo {
+namespace openjph {
 
     namespace wavelet {
 

@@ -4,9 +4,7 @@
 
 #pragma once
 
-namespace openjph_algo {
-
-    namespace wavelet {
+namespace openjph {
 
         using namespace openjph;
 
@@ -30,5 +28,4 @@ namespace openjph_algo {
         virtual bool eof() = 0;
         virtual void close() {}
         };
-    };
 };

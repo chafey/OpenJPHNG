@@ -1,18 +1,18 @@
 #pragma once
-#include "common.h"
+#include <openjph/common.h>
 #include <cassert>
 #include <cstddef>
 #include <cstdio>
 #include <cstring>
 #include "lifting_step.h"
 
-namespace openjph_algo {
+namespace openjph {
+
+    class infile_base;
 
     namespace wavelet {
 
         using namespace openjph;
-
-        class infile_base;
 
         struct param_atk
         {

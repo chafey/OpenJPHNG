@@ -9,8 +9,7 @@
 # We need this directory, and users of our library will need it too
 #target_include_directories(modern_cpp_lib PUBLIC ../include)
 
-add_subdirectory(generic)
-
+add_subdirectory(general)
 
 # This depends on (header only) boost
 #target_link_libraries(modern_cpp_lib PRIVATE Boost::boost)

@@ -12,4 +12,4 @@ FetchContent_MakeAvailable(googletest)
 # Include Google Test module
 include(GoogleTest)
 
-add_subdirectory(openjph-algo)
+add_subdirectory(openjph)

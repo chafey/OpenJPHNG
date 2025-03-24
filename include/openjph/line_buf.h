@@ -3,10 +3,7 @@
 
 #pragma once
 
-namespace openjph_algo {
-
-    namespace wavelet {
-        using namespace openjph;
+namespace openjph {
 
         /////////////////////////////////////////////////////////////////////////////
         class line_buf
@@ -39,5 +36,4 @@ namespace openjph_algo {
                 void* p;    // no type is associated with the pointer
             };
         };
-    };
 };
