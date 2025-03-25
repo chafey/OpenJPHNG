@@ -24,24 +24,8 @@ namespace openjph {
 
         void init_wavelet_transform_functions();
 
-
         namespace reversible {
-            /*
-            /////////////////////////////////////////////////////////////////////////
-            extern void (*rev_vert_step)
-            (const lifting_step* s, const line_buf* sig, const line_buf* other,
-                const line_buf* aug, ui32 repeat, bool synthesis);
-
-            /////////////////////////////////////////////////////////////////////////
-            extern void (*rev_horz_ana)
-            (const param_atk* atk, const line_buf* ldst, const line_buf* hdst,
-                const line_buf* src, ui32 width, bool even);
-
-            /////////////////////////////////////////////////////////////////////////
-            extern void (*rev_horz_syn)
-            (const param_atk* atk, const line_buf* dst, const line_buf* lsrc,
-                const line_buf* hsrc, ui32 width, bool even);
-            */
+            // TODO: See if we can use the same interface for both reversible and irreversible
             class ForwardTransform {
                 public:
                     virtual ~ForwardTransform() {};
@@ -62,6 +46,7 @@ namespace openjph {
                         bool even) = 0;
             };
 
+            // TODO: See if we can use the same interface for both reversible and irreversible
             class InverseTransform {
                 public:
                     virtual ~InverseTransform() {};
