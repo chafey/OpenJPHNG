@@ -9,6 +9,7 @@ Experimental repository for an OpenJPH refactoring.
 * Improve source code documentation
 * Add unit tests
 * Simplify build process/configuration
+* Enable use of code by other projects (e.g. encoders/decoders by OpenJPEG)
 
 # Status
 
