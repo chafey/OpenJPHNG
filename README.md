@@ -1,5 +1,5 @@
 # OpenJPHNG
-Experimental repository for an OpenJPH refactoring.  
+Experimental repository for an [OpenJPH](https://github.com/aous72/OpenJPH/) refactoring.  
 
 # Goals
 
@@ -45,11 +45,14 @@ Future:
 | ------------ | ------- | --------
 | Linux Ubuntu | x86_64  | gcc
 | Windows      | x86_64  | MSVC
+| WASM         | WASM    | clang? 
 
 ## Requirements
 
 * CMake 3.31 or newer
-* C++ Build Environment (compiler, linker, make)
+* C++ Build Tools (compiler, linker, make)
+
+NOTE: This project depends on [GoolgeTest](https://github.com/google/googletest) for unit testing.  It will automatically be downloaded and compiled if building tests
 
 ## Building
 
@@ -57,7 +60,7 @@ Future:
 
 # Contributing
 
-* TODO: style guide
+* TODO: style guide - [google c++ coding standards?](https://google.github.io/styleguide/cppguide.html)
 * TODO: policies (zero warning, CI passes, unit test coverage?) 
 * TODO: Supported IDEs (VS Code, Xcode?, Visual Studio?)
 
@@ -73,3 +76,13 @@ Future:
   - A: Clean integration with third party libraries (e.g. OpenJPEG), runtime switching between algorithms (e.g. SIMD vs general).  New library features are not planned but could happen along the way
 
 # TODO
+
+* Make sure it builds on supported platforms
+* Setup CI for supported build environments 
+* Create a docker image for building
+* Iterate on how the reversible wavelet forward transform works until we are happy with it
+* Add instructions for using with Visual Studio Code (extensions, configuration?)
+* Add instructions for using with XCode?
+* Add instructions for using with Visual Studio?
+* Add an application (ojph_compress?) skeleton that links to the library
+* Add support for different build configurations (debug, release) (via cmake presets?)

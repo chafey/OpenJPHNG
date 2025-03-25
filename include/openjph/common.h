@@ -12,15 +12,6 @@
 #endif
 
 namespace openjph {
-    /*class noncopyable {
-        protected:
-            noncopyable() = default;
-            ~noncopyable() = default;
-            noncopyable(const noncopyable&) = delete;
-            noncopyable& operator=(const noncopyable&) = delete;
-            noncopyable(noncopyable &&) = delete;
-            noncopyable &operator=(noncopyable &&) = delete;
-    };*/
 
 /////////////////////////////////////////////////////////////////////////////
 //                               types

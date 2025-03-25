@@ -2,7 +2,7 @@
 #include <openjph/wavelet/lifting_step.h>
 #include <openjph/wavelet/param_atk.h>
 #include <openjph/line_buf.h>
-#include <openjph/wavelet/general/forward-reversible.h>
+#include <openjph/wavelet/general/reversible-forward-transform.h>
 
 using namespace openjph;
 using namespace wavelet;

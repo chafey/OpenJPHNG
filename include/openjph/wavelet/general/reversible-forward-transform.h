@@ -1,4 +1,4 @@
-#include <openjph/wavelet/wavelet.h>
+#include <openjph/wavelet/reversible-forward-transform.h>
 
 namespace openjph {
     namespace wavelet {
