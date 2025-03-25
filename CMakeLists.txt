@@ -3,6 +3,12 @@ cmake_minimum_required(VERSION 3.31)
 
 project(OpenJPH LANGUAGES CXX)
 
+# Options
+option(BUILD_SHARED_LIBS "Shared Libraries" ON)
+option(OJPH_BUILD_TESTING "Build OpenJPH Tests" OFF)
+option(OJPH_BUILD_EXECUTABLES "Enables building command line executables" ON)
+
+
 # set the build type if not specified
 set(default_build_type "Release")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
@@ -30,11 +36,13 @@ endif()
 add_subdirectory(src)
 
 # The executable code is here
-#add_subdirectory(apps)
+if (OJPH_BUILD_EXECUTABLES)
+  #add_subdirectory(apps)
+endif()
 
 # Testing only available if this is the main app
 # Emergency override OPENJPG_BUILD_TESTING provided as well
-if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR OPENJPH_BUILD_TESTING) AND BUILD_TESTING)
+if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR OJPH_BUILD_TESTING) AND BUILD_TESTING)
 
     include(CTest)
 
