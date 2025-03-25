@@ -5,7 +5,8 @@ add_executable(openjph-unittest
     mem_fixed_allocator_unittest.cc
     )
 
-target_link_libraries(openjph-unittest PUBLIC GTest::gtest_main openjph-wavelet-general)
+target_link_libraries(openjph-unittest PUBLIC GTest::gtest_main openjph )
+#openjph-wavelet-general)
 
 include (GoogleTest)
 
