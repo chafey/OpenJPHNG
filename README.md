@@ -1,5 +1,14 @@
 # OpenJPHNG
-Experimental repository for an OpenJPH refactoring
+Experimental repository for an OpenJPH refactoring.  
+
+# Goals
+
+* Improve readability of code 
+* Improve use of C++ language features
+* Improve cmake design
+* Improve source code documentation
+* Add unit tests
+* Simplify build process/configuration
 
 # Status
 
