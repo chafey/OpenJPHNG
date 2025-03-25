@@ -11,7 +11,7 @@ Experimental repository for an [OpenJPH](https://github.com/aous72/OpenJPH/) ref
     * Get rid of function pointers
         * Use polymorphic classes or templates
     * Use const and references
-    * Increase minimum c++ version to 17 from 14
+    * Increase minimum c++ version to 20 from 14
         * Should allow us to remove types/#defines from the common folder
 * Improve cmake design
     * Use modern best practices
@@ -67,7 +67,7 @@ NOTE: This project depends on [GoolgeTest](https://github.com/google/googletest)
 # FAQ
 
 * Q: What version of C++ will this library use?
-  - A: TBD - it is currently set to 17 (up from 14 in current OpenJPH).  Feedback on this would be appreciated!
+  - A: TBD - it is currently set to 20 (up from 14 in current OpenJPH) to comply with the Google C++ Style Guide.  Feedback on this would be appreciated!
 * Q: Will this library be backwards compatible with the current OpenJPH API?
   - A: The APIs will change to improve readability, use modern C++ features and be unit testable so will change.  An adapter layer will be explored in the future 
 * Q: Will speed be improved?

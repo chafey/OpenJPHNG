@@ -26,6 +26,7 @@ namespace openjph {
             class ForwardTransform {
                 public:
                     virtual ~ForwardTransform() {};
+                    // TODO: pass parameters by reference, not pointer
                     virtual void VerticalStep(
                         const lifting_step* s,
                         const line_buf* sig,
@@ -34,6 +35,7 @@ namespace openjph {
                         ui32 repeat,
                         bool synthesis) = 0;
 
+                    // TODO: pass parameters by reference, not pointer
                     virtual void HorizontalAna(
                         const param_atk* atk,
                         const line_buf* ldst,

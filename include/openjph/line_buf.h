@@ -6,6 +6,7 @@
 namespace openjph {
 
         /////////////////////////////////////////////////////////////////////////////
+        // TODO: Rename to LineBuffer to comply with google c++ style guide
         class line_buf
         {
         public:
@@ -23,12 +24,17 @@ namespace openjph {
 
             line_buf() : size(0), pre_size(0), flags(LFT_UNDEFINED), i32(0) {}
 
+            // TODO: Do we need to be able to call wrap() on the same line_buf with different types?  If not,
+            //       we should make this part of the ctor
             template<typename T>
                 void wrap(T *buffer, size_t num_ele, ui32 pre_size);
 
-            size_t size;
-            ui32 pre_size;
-            ui32 flags;
+            // TODO: Making these data members public is dangerous as they can be changed
+            //       to an inconsistent state.  They should be made private and accessor/mutation
+            //       methods should be added to preserve integrity
+            size_t size; // NOTE - does not appear to be modified by code
+            ui32 pre_size; // NOTE - does not appear to be modified by code
+            ui32 flags; // NOTE - does not appear to be modified by code
             union {
                 si32* i32;  // 32bit integer type, used for lossless compression
                 si64* i64;  // 64bit integer type, used for lossless compression

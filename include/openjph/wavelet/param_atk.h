@@ -14,6 +14,8 @@ namespace openjph {
 
         using namespace openjph;
 
+        // TODO: make this a class
+        // TODO: move the method implementations into a .cc file to hide it and reduce the #includes needed above
         struct param_atk
         {
           // Limitations:

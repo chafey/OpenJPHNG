@@ -9,6 +9,7 @@ namespace openjph {
         using namespace openjph;
         using namespace std;
 
+        // TODO: unions should rarely be used as they are confusing.  Get rid of this union or make it part of the private implementation
         union lifting_step {
             struct irv_data {
             // si8 Oatk;     // only for arbitrary filter
