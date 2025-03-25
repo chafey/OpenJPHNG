@@ -1,4 +1,5 @@
-add_executable(openjph-wavelet-general-test reversible-forward-transform_unittest.cpp)
+add_executable(openjph-wavelet-general-test 
+    reversible_forward_transform_unittest.cc)
 
 target_link_libraries(openjph-wavelet-general-test PUBLIC GTest::gtest_main openjph-wavelet-general)
 

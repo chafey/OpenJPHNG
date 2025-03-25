@@ -5,5 +5,5 @@ target_include_directories(openjph-wavelet-general PUBLIC
   "${PROJECT_SOURCE_DIR}/include/")
 
 target_sources(openjph-wavelet-general  PRIVATE
-  reversible-forward-transform.cpp
+  reversible_forward_transform.cc
 )
