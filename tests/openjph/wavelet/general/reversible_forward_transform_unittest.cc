@@ -10,7 +10,7 @@ namespace {
     using namespace openjph::wavelet;
 
     TEST(WaveletGeneralReversibleForwardTransform, HappyPath) {
-        openjph::wavelet::reversible::general::ForwardTransform xform;
+        openjph::wavelet::general::reversible::ForwardTransform xform;
         /*
         // TODO: Fill these parameters out for a simple happy path
         lifting_step s;

@@ -7,6 +7,8 @@ Experimental repository for an [OpenJPH](https://github.com/aous72/OpenJPH/) ref
     * Minimize abbreviations in class, function and argument names
     * Break large files into several smaller files
     * Break large functions into several smaller functions
+    * One class per file
+    * source files match class names
 * Improve use of C++ language features.  
     * Get rid of function pointers
         * Use polymorphic classes or templates
@@ -29,7 +31,7 @@ Experimental repository for an [OpenJPH](https://github.com/aous72/OpenJPH/) ref
 
 # Status
 
-* Alpha (Mar 25, 2025)
+* Alpha (Mar 26, 2025)
 
 # Building
 
@@ -69,11 +71,11 @@ NOTE: This project depends on [GoolgeTest](https://github.com/google/googletest)
 * Q: What version of C++ will this library use?
   - A: TBD - it is currently set to 20 (up from 14 in current OpenJPH) to comply with the Google C++ Style Guide.  Feedback on this would be appreciated!
 * Q: Will this library be backwards compatible with the current OpenJPH API?
-  - A: The APIs will change to improve readability, use modern C++ features and be unit testable so will change.  An adapter layer will be explored in the future 
+  - A: The APIs will change to improve readability, use modern C++ features and be unit testable.  An adapter layer will be explored in the future 
 * Q: Will speed be improved?
   - A: Improved speed is not a goal of this refactor but it is important to avoid any loss in performance
 * Q: What new features will this library have?
-  - A: Clean integration with third party libraries (e.g. OpenJPEG), runtime switching between algorithms (e.g. SIMD vs general).  New library features are not planned but could happen along the way
+  - A: Clean integration with third party libraries (e.g. OpenJPEG), runtime switching between algorithms (e.g. SIMD vs general).  New library functionality is not planned but could happen along the way
 
 # TODO
 

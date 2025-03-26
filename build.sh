@@ -7,5 +7,4 @@ cmake .. \
     -DCMAKE_C_COMPILER=clang \
     -DCMAKE_CXX_COMPILER=clang++ \
     -DBUILD_TESTING=ON
-make -j
-ctest
+make -j && ctest
