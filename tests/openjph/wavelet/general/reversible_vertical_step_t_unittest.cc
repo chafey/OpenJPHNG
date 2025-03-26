@@ -27,12 +27,15 @@ TEST(WaveletGeneralReversibleVerticalStepT, HappyPath)
 {
     lifting_step liftingStep;
     const int length = 4;
-    si32 signal[length] = {1, 2, 3, 4};
-    si32 other[length] = {-5, -6, -7, -8};
-    si32 aug[length] = {0};
+    si32 signal1[length] = {1, 2, 3, 4};
+    span<si32> signal1Span(signal1, length);
+    si32 signal2[length] = {-5, -6, -7, -8};
+    span<si32> signal2Span(signal2, length);
+    si32 destination[length] = {0};
+    span<si32> destinationSpan(destination, length);
     ui32 repeat = 32;
     bool synthesis = true;
-    general::reversible::vertical_step<si32>(&liftingStep, signal, other, aug, repeat, synthesis);
+    general::reversible::vertical_step<si32>(liftingStep, signal1Span, signal2Span, destinationSpan, synthesis);
 }
 
 TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
@@ -57,12 +60,15 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     general::reversible::gen_rev_vert_step32(&liftingStep, &sig, &oth, &aug, repeat, synthesis);
     printArray<si32>(augb, length);
 
-    si32 signal[length] = {10, -20, 5, -15};
-    si32 other[length] = {-5, -6, -7, -8};
-    si32 augz[length] = {0};
-    general::reversible::vertical_step<si32>(&liftingStep, signal, other, augz, repeat, synthesis);
-    printArray<si32>(augz, length);
+    si32 signal1[length] = {10, -20, 5, -15};
+    span<si32> signal1Span(signal1, length);
+    si32 signal2[length] = {-5, -6, -7, -8};
+    span<si32> signal2Span(signal2, length);
+    si32 destination[length] = {0};
+    span<si32> destinationSpan(destination, length);
+    general::reversible::vertical_step<si32>(liftingStep, signal1Span, signal2Span, destinationSpan, synthesis);
+    printArray<si32>(destination, length);
 
-    EXPECT_TRUE(0 == std::memcmp(augb, augz, length * sizeof(si32)));
+    EXPECT_TRUE(0 == std::memcmp(augb, destination, length * sizeof(si32)));
 }
 } // namespace
