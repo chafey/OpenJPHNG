@@ -1,3 +1,4 @@
+#include "../../../../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
 #include "../../../../src/openjph/wavelet/general/reversible_vertical_step.h"
 #include "../../../../src/openjph/wavelet/general/reversible_vertical_step_t.h"
 #include <gtest/gtest.h>
@@ -56,17 +57,24 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     line_buf aug;
     aug.wrap(augb, length, 0);
     ui32 repeat = length;
-    bool synthesis = true;
+    bool synthesis = false;
     general::reversible::gen_rev_vert_step32(&liftingStep, &sig, &oth, &aug, repeat, synthesis);
     printArray<si32>(augb, length);
 
     si32 signal1[length] = {10, -20, 5, -15};
-    span<si32> signal1Span(signal1, length);
+    span<const si32> signal1Span(signal1, length);
     si32 signal2[length] = {-5, -6, -7, -8};
-    span<si32> signal2Span(signal2, length);
+    span<const si32> signal2Span(signal2, length);
     si32 destination[length] = {0};
     span<si32> destinationSpan(destination, length);
-    general::reversible::vertical_step<si32>(liftingStep, signal1Span, signal2Span, destinationSpan, synthesis);
+    /*general::reversible::forward_vertical_step_general<si32>(liftingStep.rev.Aatk,
+                                                             liftingStep.rev.Batk,
+                                                             liftingStep.rev.Eatk,
+                                                             signal1Span,
+                                                             signal2Span,
+                                                             destinationSpan);
+    */
+    general::reversible::forward_vertical_step_optimized<si32>(liftingStep, signal1Span, signal2Span, destinationSpan);
     printArray<si32>(destination, length);
 
     EXPECT_TRUE(0 == std::memcmp(augb, destination, length * sizeof(si32)));

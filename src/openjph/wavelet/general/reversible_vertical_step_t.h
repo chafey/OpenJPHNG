@@ -13,9 +13,6 @@
 namespace openjph
 {
 
-class line_buf;
-
-
 namespace wavelet
 {
 
@@ -23,7 +20,6 @@ using namespace openjph;
 using namespace std;
 
 union lifting_step;
-class param_atk;
 
 namespace general
 {
