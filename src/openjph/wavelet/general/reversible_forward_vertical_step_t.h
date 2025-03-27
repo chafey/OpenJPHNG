@@ -42,9 +42,9 @@ void forward_vertical_step_general(const ReversibleLiftingStep &lifting_step,
     for (auto &dest : destination)
     {
         // TODO: can we change += to =?
-        dest +=
-            (lifting_step.beta + lifting_step.lifting_coefficient * (*upper_line_iterator + *lower_line_iterator)) >>
-            lifting_step.epsilon;
+        dest += (lifting_step.beta() +
+                 lifting_step.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >>
+                lifting_step.epsilon();
         ++upper_line_iterator;
         ++lower_line_iterator;
     }
@@ -66,35 +66,35 @@ void forward_vertical_step_optimized(const ReversibleLiftingStep &lifting_step,
 
     auto lower_line_iterator = std::cbegin(lower_line);
     auto upper_line_iterator = std::cbegin(upper_line);
-    if (lifting_step.lifting_coefficient == 1)
+    if (lifting_step.lifting_coefficient() == 1)
     {
         for (auto &dest : destination)
         {
             // TODO: can we change += to =?
-            dest += (lifting_step.beta + (*upper_line_iterator + *lower_line_iterator)) >> lifting_step.epsilon;
+            dest += (lifting_step.beta() + (*upper_line_iterator + *lower_line_iterator)) >> lifting_step.epsilon();
             ++upper_line_iterator;
             ++lower_line_iterator;
         }
     }
-    else if (lifting_step.lifting_coefficient == -1 && lifting_step.lifting_coefficient == 1 &&
-             lifting_step.epsilon == 1)
+    else if (lifting_step.lifting_coefficient() == -1 && lifting_step.lifting_coefficient() == 1 &&
+             lifting_step.epsilon() == 1)
     {
         // 5/3 predict
         for (auto &dest : destination)
         {
             // TODO: can we change += to =?
-            dest += (*upper_line_iterator + *lower_line_iterator) >> lifting_step.epsilon;
+            dest += (*upper_line_iterator + *lower_line_iterator) >> lifting_step.epsilon();
             ++upper_line_iterator;
             ++lower_line_iterator;
         }
     }
-    else if (lifting_step.lifting_coefficient == -1)
+    else if (lifting_step.lifting_coefficient() == -1)
     {
         // any case with a == -1, which is not 5/3 predict
         for (auto &dest : destination)
         {
             // TODO: can we change += to =?
-            dest += (lifting_step.beta - (*upper_line_iterator + *lower_line_iterator)) >> lifting_step.epsilon;
+            dest += (lifting_step.beta() - (*upper_line_iterator + *lower_line_iterator)) >> lifting_step.epsilon();
             ++upper_line_iterator;
             ++lower_line_iterator;
         }

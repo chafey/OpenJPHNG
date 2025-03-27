@@ -39,6 +39,7 @@ TEST(WaveletGeneralReversibleVerticalStepT, HappyPath)
     general::reversible::vertical_step<si32>(liftingStep, signal1Span, signal2Span, destinationSpan, synthesis);
 }
 
+
 TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
 {
     lifting_step liftingStep;
@@ -84,4 +85,10 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
 
     EXPECT_TRUE(0 == std::memcmp(augb, destination_buffer, length * sizeof(si32)));
 }
+
+// TODO: Add unit tests for each optimization path in forward_vertical_step_optimized
+// TODO: Add unit tests for edge cases (max values?)
+// TODO: Add unit tests for negative cases (destination length > line length)
+
+
 } // namespace
