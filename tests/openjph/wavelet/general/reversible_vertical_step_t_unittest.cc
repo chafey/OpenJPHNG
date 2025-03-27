@@ -61,12 +61,14 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     general::reversible::gen_rev_vert_step32(&liftingStep, &sig, &oth, &aug, repeat, synthesis);
     printArray<si32>(augb, length);
 
-    si32 signal1[length] = {10, -20, 5, -15};
-    span<const si32> signal1Span(signal1, length);
-    si32 signal2[length] = {-5, -6, -7, -8};
-    span<const si32> signal2Span(signal2, length);
-    si32 destination[length] = {0};
-    span<si32> destinationSpan(destination, length);
+    ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
+    si32 upper_line_buffer[length] = {10, -20, 5, -15};
+    span<const si32> upper_line(upper_line_buffer, length);
+    si32 lower_line_buffer[length] = {-5, -6, -7, -8};
+    span<const si32> lower_line(lower_line_buffer, length);
+    si32 destination_buffer[length] = {0};
+    span<si32> destination(destination_buffer, length);
+
     /*general::reversible::forward_vertical_step_general<si32>(liftingStep.rev.Aatk,
                                                              liftingStep.rev.Batk,
                                                              liftingStep.rev.Eatk,
@@ -74,9 +76,12 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
                                                              signal2Span,
                                                              destinationSpan);
     */
-    general::reversible::forward_vertical_step_optimized<si32>(liftingStep, signal1Span, signal2Span, destinationSpan);
-    printArray<si32>(destination, length);
+    general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
+                                                               upper_line,
+                                                               lower_line,
+                                                               destination);
+    printArray<si32>(destination_buffer, length);
 
-    EXPECT_TRUE(0 == std::memcmp(augb, destination, length * sizeof(si32)));
+    EXPECT_TRUE(0 == std::memcmp(augb, destination_buffer, length * sizeof(si32)));
 }
 } // namespace

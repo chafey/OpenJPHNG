@@ -31,27 +31,27 @@ Experimental repository for an [OpenJPH](https://github.com/aous72/OpenJPH/) ref
 
 # Status
 
-* Alpha (Mar 26, 2025)
+* Alpha (Mar 27, 2025)
 
 # Building
 
 ## Supported build environments:
 
 Current:
-| OS           | CPU     | Compiler
-| ------------ | ------- | --------
-| Mac OS X     | AArch64 | Apple Clang
+| OS           | CPU       | Compiler
+| ------------ | --------- | --------
+| Mac OS X     | AArch64   | Apple Clang
+| Linux Ubuntu | x86_64    | gcc
 
 Future:
-| OS           | CPU     | Compiler
-| ------------ | ------- | --------
-| Linux Ubuntu | x86_64  | gcc
-| Windows      | x86_64  | MSVC
-| WASM         | WASM    | clang? 
+| OS           | CPU       | Compiler
+| ------------ | --------- | --------
+| Windows      | x86_64    | MSVC
+| WASM-SIMD    | WASM-SIMD | EMSCRIPTEN
 
 ## Requirements
 
-* CMake 3.31 or newer
+* CMake 3.28 or newer
 * C++ Build Tools (compiler, linker, make)
 
 NOTE: This project depends on [GoolgeTest](https://github.com/google/googletest) for unit testing.  It will automatically be downloaded and compiled if building tests

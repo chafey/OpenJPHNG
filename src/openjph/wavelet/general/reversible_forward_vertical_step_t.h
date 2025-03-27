@@ -4,6 +4,7 @@
 #include <cassert>
 #include <openjph/common.h>
 #include <openjph/wavelet/lifting_step.h>
+#include <openjph/wavelet/reversible_lifting_step.h>
 #include <span>
 #pragma once
 
@@ -27,9 +28,7 @@ namespace reversible
 // different to part 2, although they are mathematically equivalent
 // here, we identify the simpler form from Part 1 and employ them
 template <typename T>
-void forward_vertical_step_general(T lifting_coefficient,
-                                   T beta,
-                                   ui8 epsilon,
+void forward_vertical_step_general(const ReversibleLiftingStep &lifting_step,
                                    const std::span<const T> &upper_line,
                                    const std::span<const T> &lower_line,
                                    const std::span<T> &destination)
@@ -43,7 +42,9 @@ void forward_vertical_step_general(T lifting_coefficient,
     for (auto &dest : destination)
     {
         // TODO: can we change += to =?
-        dest += (beta + lifting_coefficient * (*upper_line_iterator + *lower_line_iterator)) >> epsilon;
+        dest +=
+            (lifting_step.beta + lifting_step.lifting_coefficient * (*upper_line_iterator + *lower_line_iterator)) >>
+            lifting_step.epsilon;
         ++upper_line_iterator;
         ++lower_line_iterator;
     }
@@ -55,47 +56,45 @@ void forward_vertical_step_general(T lifting_coefficient,
 // different to part 2, although they are mathematically equivalent
 // here, we identify the simpler form from Part 1 and employ them
 template <typename T>
-void forward_vertical_step_optimized(const lifting_step &s,
+void forward_vertical_step_optimized(const ReversibleLiftingStep &lifting_step,
                                      const std::span<const T> &upper_line,
                                      const std::span<const T> &lower_line,
                                      const std::span<T> &destination)
 {
     assert(upper_line.size() >= destination.size());
     assert(lower_line.size() >= destination.size());
-    const T lifting_coefficient = s.rev.Aatk;
-    const T beta = s.rev.Batk;
-    const ui8 epsilon = s.rev.Eatk;
 
     auto lower_line_iterator = std::cbegin(lower_line);
     auto upper_line_iterator = std::cbegin(upper_line);
-    if (lifting_coefficient == 1)
+    if (lifting_step.lifting_coefficient == 1)
     {
         for (auto &dest : destination)
         {
             // TODO: can we change += to =?
-            dest += (beta + (*upper_line_iterator + *lower_line_iterator)) >> epsilon;
+            dest += (lifting_step.beta + (*upper_line_iterator + *lower_line_iterator)) >> lifting_step.epsilon;
             ++upper_line_iterator;
             ++lower_line_iterator;
         }
     }
-    else if (lifting_coefficient == -1 && beta == 1 && epsilon == 1)
+    else if (lifting_step.lifting_coefficient == -1 && lifting_step.lifting_coefficient == 1 &&
+             lifting_step.epsilon == 1)
     {
         // 5/3 predict
         for (auto &dest : destination)
         {
             // TODO: can we change += to =?
-            dest += (*upper_line_iterator + *lower_line_iterator) >> epsilon;
+            dest += (*upper_line_iterator + *lower_line_iterator) >> lifting_step.epsilon;
             ++upper_line_iterator;
             ++lower_line_iterator;
         }
     }
-    else if (lifting_coefficient == -1)
+    else if (lifting_step.lifting_coefficient == -1)
     {
         // any case with a == -1, which is not 5/3 predict
         for (auto &dest : destination)
         {
             // TODO: can we change += to =?
-            dest += (beta - (*upper_line_iterator + *lower_line_iterator)) >> epsilon;
+            dest += (lifting_step.beta - (*upper_line_iterator + *lower_line_iterator)) >> lifting_step.epsilon;
             ++upper_line_iterator;
             ++lower_line_iterator;
         }
@@ -103,7 +102,7 @@ void forward_vertical_step_optimized(const lifting_step &s,
     else
     {
         // general case
-        forward_vertical_step_general<T>(lifting_coefficient, beta, epsilon, upper_line, lower_line, destination);
+        forward_vertical_step_general<T>(lifting_step, upper_line, lower_line, destination);
     }
 }
 
