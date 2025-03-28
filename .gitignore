@@ -64,6 +64,7 @@ html/
 #.vscode/c_cpp_properties.json
 *.code-workspace
 .history
+CMakeUserPresets.json
 
 ################################
 ###########   VS    ############

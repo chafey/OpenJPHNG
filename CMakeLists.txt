@@ -33,6 +33,9 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
     set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 endif()
 
+# enable architecture specific optimizations
+add_compile_options(-march=native)
+
 # The compiled library code is here
 add_subdirectory(src)
 
@@ -40,6 +43,8 @@ add_subdirectory(src)
 if (OJPH_BUILD_EXECUTABLES)
   #add_subdirectory(apps)
 endif()
+
+set(FETCHCONTENT_BASE_DIR "${CMAKE_BINARY_DIR}/external")
 
 # Testing only available if this is the main app
 # Emergency override OPENJPG_BUILD_TESTING provided as well

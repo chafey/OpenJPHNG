@@ -1,6 +1,6 @@
-#include "../../../../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
-#include "../../../../src/openjph/wavelet/general/reversible_vertical_step.h"
-#include "../../../../src/openjph/wavelet/avx512/reversible_forward_vertical_step.h"
+#include "../src/openjph/wavelet/avx512/reversible_forward_vertical_step.h"
+#include "../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
+#include "../src/openjph/wavelet/general/reversible_vertical_step.h"
 #include <benchmark/benchmark.h>
 #include <gtest/gtest.h>
 #include <openjph/line_buf.h>
@@ -17,9 +17,9 @@ using namespace openjph::wavelet;
 
 // TODO: set this to the common buffer length or change to a range of values to test different ones
 const int buffer_length = 4096;
-si32 upper_line_buffer[buffer_length] = {0};
-si32 lower_line_buffer[buffer_length] = {0};
-si32 destination_buffer[buffer_length] = {0};
+alignas(64) si32 upper_line_buffer[buffer_length] = {0};
+alignas(64) si32 lower_line_buffer[buffer_length] = {0};
+alignas(64) si32 destination_buffer[buffer_length] = {0};
 
 void resetFixtures()
 {
@@ -130,11 +130,11 @@ void BW_ForwardVerticalStepAVX512(benchmark::State &state)
     {
         benchmark::DoNotOptimize(destination_buffer);
         openjph::wavelet::avx512::reversible::avx512_rev_vert_step32(&liftingStep,
-                                                 &upper_line,
-                                                 &lower_line,
-                                                 &destination,
-                                                 repeat,
-                                                 synthesis);
+                                                                     &upper_line,
+                                                                     &lower_line,
+                                                                     &destination,
+                                                                     repeat,
+                                                                     synthesis);
         benchmark::ClobberMemory();
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));

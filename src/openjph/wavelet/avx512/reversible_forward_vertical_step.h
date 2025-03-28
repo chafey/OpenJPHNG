@@ -1,14 +1,14 @@
 #pragma once
 #include <openjph/common.h>
 
-using namespace openjph;
-using namespace wavelet;
 namespace openjph
 {
 class line_buf;
 
 namespace wavelet
 {
+using namespace openjph;
+using namespace wavelet;
 union lifting_step;
 
 namespace avx512

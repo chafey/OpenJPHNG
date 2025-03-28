@@ -53,8 +53,12 @@ Future:
 
 * CMake 3.28 or newer
 * C++ Build Tools (compiler, linker, make)
+* Ninja 1.11.1 or newer
 
-NOTE: This project depends on [GoolgeTest](https://github.com/google/googletest) for unit testing.  It will automatically be downloaded and compiled if building tests
+### Notes 
+
+* This project depends on [GoolgeTest](https://github.com/google/googletest) for unit testing.  It will automatically be downloaded and compiled if building tests
+* This project depends on [Goolge Benchmark](https://github.com/google/benchmark) for benchmarking.  It will automatically be downloaded and compiled if OJPH_BUILD_BENCHMARKS is ON
 
 ## Building
 

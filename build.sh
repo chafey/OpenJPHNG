@@ -2,12 +2,14 @@
 mkdir -p build
 cd build
 cmake .. \
+    --preset benchmark \
     -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-    -DOJPH_BUILD_BENCHMARKS=ON \
-    -DBUILD_TESTING=ON \
-    -DCMAKE_BUILD_TYPE=Release 
-#    -DCMAKE_C_COMPILER=clang \
-#    -DCMAKE_CXX_COMPILER=clang++ \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ 
 #make -j && ctest
 #make -j && tests/openjph/openjph-unittest
-make -j && tests/openjph/wavelet/general/openjph-wavelet-general-test && benchmarks/openjph-benchmark
+cd ..
+cmake  --build . --preset benchmark 
+#make -j && tests/openjph/wavelet/general/openjph-wavelet-general-test && benchmarks/openjph-benchmark
+build/benchmark/tests/openjph/wavelet/general/openjph-wavelet-general-test
+build/benchmark/benchmarks/openjph-benchmark
