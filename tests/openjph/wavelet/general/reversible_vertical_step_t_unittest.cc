@@ -70,17 +70,16 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     si32 destination_buffer[length] = {0};
     span<si32> destination(destination_buffer, length);
 
-    /*general::reversible::forward_vertical_step_general<si32>(liftingStep.rev.Aatk,
-                                                             liftingStep.rev.Batk,
-                                                             liftingStep.rev.Eatk,
-                                                             signal1Span,
-                                                             signal2Span,
-                                                             destinationSpan);
-    */
-    general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
+    general::reversible::forward_vertical_step_general<si32>(reversible_lifting_step,
+                                                             upper_line,
+                                                             lower_line,
+                                                             destination);
+    
+    /*general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
                                                                upper_line,
                                                                lower_line,
                                                                destination);
+    */
     printArray<si32>(destination_buffer, length);
 
     EXPECT_TRUE(0 == std::memcmp(augb, destination_buffer, length * sizeof(si32)));

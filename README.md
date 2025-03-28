@@ -31,7 +31,7 @@ Experimental repository for an [OpenJPH](https://github.com/aous72/OpenJPH/) ref
 
 # Status
 
-* Alpha (Mar 27, 2025)
+* Alpha (Mar 28, 2025)
 
 # Building
 
@@ -88,4 +88,3 @@ NOTE: This project depends on [GoolgeTest](https://github.com/google/googletest)
 * Add instructions for using with Visual Studio?
 * Add an application (ojph_compress?) skeleton that links to the library
 * Add support for different build configurations (debug, release) (via cmake presets?)
-* Add support for performance benchmarking 

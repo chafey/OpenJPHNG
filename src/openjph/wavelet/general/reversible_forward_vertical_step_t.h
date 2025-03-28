@@ -42,7 +42,7 @@ void forward_vertical_step_general(const ReversibleLiftingStep &lifting_step,
     for (auto &dest : destination)
     {
         // TODO: can we change += to =?
-        dest += (lifting_step.beta() +
+        dest = (lifting_step.beta() +
                  lifting_step.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >>
                 lifting_step.epsilon();
         ++upper_line_iterator;

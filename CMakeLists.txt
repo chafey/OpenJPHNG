@@ -7,6 +7,7 @@ project(OpenJPH LANGUAGES CXX)
 option(BUILD_SHARED_LIBS "Shared Libraries" ON)
 option(OJPH_BUILD_TESTING "Build OpenJPH Tests" OFF)
 option(OJPH_BUILD_EXECUTABLES "Enables building command line executables" ON)
+option(OJPH_BUILD_BENCHMARKS "Enables building benchmark" OFF)
 
 
 # set the build type if not specified
@@ -49,5 +50,11 @@ if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR OJPH_BUILD_TESTING) AND BUILD_TE
     enable_testing()
 
     add_subdirectory(tests)
+
+endif()
+
+if( OJPH_BUILD_BENCHMARKS)
+
+    add_subdirectory(benchmarks)
 
 endif()
