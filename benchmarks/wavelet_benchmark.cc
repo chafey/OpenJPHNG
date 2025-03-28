@@ -57,7 +57,7 @@ void BW_ForwardVerticalStepOriginal(benchmark::State &state)
 BENCHMARK(BW_ForwardVerticalStepOriginal);
 
 
-void BW_ForwardVerticalStepOptimized(benchmark::State &state)
+void BW_ForwardVerticalStepRefactored(benchmark::State &state)
 {
     const int length = buffer_length;
     ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
@@ -76,9 +76,9 @@ void BW_ForwardVerticalStepOptimized(benchmark::State &state)
     }
 }
 // Register the function as a benchmark
-BENCHMARK(BW_ForwardVerticalStepOptimized);
+BENCHMARK(BW_ForwardVerticalStepRefactored);
 
-void BW_ForwardVerticalStepGeneral(benchmark::State &state)
+void BW_ForwardVerticalStepOptimized(benchmark::State &state)
 {
     const int length = buffer_length;
     ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
@@ -98,7 +98,7 @@ void BW_ForwardVerticalStepGeneral(benchmark::State &state)
     }
 }
 // Register the function as a benchmark
-BENCHMARK(BW_ForwardVerticalStepGeneral);
+BENCHMARK(BW_ForwardVerticalStepOptimized);
 
 
 } // namespace
