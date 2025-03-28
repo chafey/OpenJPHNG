@@ -6,6 +6,7 @@
 #include <openjph/wavelet/general/reversible_forward_transform.h>
 #include <openjph/wavelet/lifting_step.h>
 #include <openjph/wavelet/param_atk.h>
+#include <openjph/wavelet/reversible_lifting_step.h>
 #include <span>
 
 namespace
@@ -70,11 +71,11 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     si32 destination_buffer[length] = {0};
     span<si32> destination(destination_buffer, length);
 
-    general::reversible::forward_vertical_step_general<si32>(reversible_lifting_step,
-                                                             upper_line,
-                                                             lower_line,
-                                                             destination);
-    
+    openjph::wavelet::general::reversible::forward_vertical_step_general<si32>(reversible_lifting_step,
+                                                                               upper_line,
+                                                                               lower_line,
+                                                                               destination);
+
     /*general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
                                                                upper_line,
                                                                lower_line,
