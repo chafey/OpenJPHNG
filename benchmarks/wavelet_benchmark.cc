@@ -1,6 +1,6 @@
 #include "../../../../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
 #include "../../../../src/openjph/wavelet/general/reversible_vertical_step.h"
-//#include "../../../../src/openjph/wavelet/general/reversible_vertical_step_t.h"
+#include "../../../../src/openjph/wavelet/avx512/reversible_forward_vertical_step.h"
 #include <benchmark/benchmark.h>
 #include <gtest/gtest.h>
 #include <openjph/line_buf.h>
@@ -106,6 +106,41 @@ void BW_ForwardVerticalStepOptimized(benchmark::State &state)
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
 BENCHMARK(BW_ForwardVerticalStepOptimized);
+
+void BW_ForwardVerticalStepAVX512(benchmark::State &state)
+{
+    const int length = buffer_length;
+    ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
+    line_buf upper_line;
+    upper_line.wrap(upper_line_buffer, buffer_length, 0);
+    line_buf lower_line;
+    lower_line.wrap(upper_line_buffer, buffer_length, 0);
+    line_buf destination;
+    destination.wrap(destination_buffer, buffer_length, 0);
+    lifting_step liftingStep;
+    liftingStep.rev.Aatk = 1;
+    liftingStep.rev.Batk = 0;
+    liftingStep.rev.Eatk = 1;
+
+    ui32 repeat = buffer_length;
+    bool synthesis = true;
+
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::avx512::reversible::avx512_rev_vert_step32(&liftingStep,
+                                                 &upper_line,
+                                                 &lower_line,
+                                                 &destination,
+                                                 repeat,
+                                                 synthesis);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepAVX512);
+
 
 } // namespace
 
