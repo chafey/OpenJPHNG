@@ -27,6 +27,10 @@ namespace reversible
 // The general definition of the wavelet in Part 2 is slightly
 // different to part 2, although they are mathematically equivalent
 // here, we identify the simpler form from Part 1 and employ them
+
+/**
+ * The general case for wavelet forward vertical step transform
+ */
 template <typename T>
 void forward_vertical_step_general(const ReversibleLiftingStep &s,
                                    const std::span<const T> &upper_line,
@@ -39,10 +43,9 @@ void forward_vertical_step_general(const ReversibleLiftingStep &s,
     // Note - using iterators and range for can result in higher performance due to compiler optimizations
     auto lower_line_iterator = std::cbegin(lower_line);
     auto upper_line_iterator = std::cbegin(upper_line);
-    //#pragma clang loop vectorize(enable) interleave(enable)
+#pragma clang loop vectorize(enable) interleave(enable)
     for (auto &dest : destination)
     {
-        // TODO: can we change += to =?
         dest += (s.beta() + s.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >> s.epsilon();
         ++upper_line_iterator;
         ++lower_line_iterator;
@@ -50,15 +53,15 @@ void forward_vertical_step_general(const ReversibleLiftingStep &s,
 }
 
 /**
+ * Performs the reversible wavelet forward vertical step.  
+ * NOTE: Each of the paths in this function is an optiization for identity
+ *       values of the lifting step properties 
  */
-// The general definition of the wavelet in Part 2 is slightly
-// different to part 2, although they are mathematically equivalent
-// here, we identify the simpler form from Part 1 and employ them
 template <typename T>
-void forward_vertical_step_optimized(const ReversibleLiftingStep &s,
-                                     const std::span<const T> &upper_line,
-                                     const std::span<const T> &lower_line,
-                                     const std::span<T> &destination)
+void forward_vertical_step(const ReversibleLiftingStep &s,
+                           const std::span<const T> &upper_line,
+                           const std::span<const T> &lower_line,
+                           const std::span<T> &destination)
 {
     assert(upper_line.size() >= destination.size());
     assert(lower_line.size() >= destination.size());
@@ -103,7 +106,33 @@ void forward_vertical_step_optimized(const ReversibleLiftingStep &s,
     else
     {
         // general case
-        forward_vertical_step_general<T>(s, upper_line, lower_line, destination);
+        forward_vertical_step_general(s, upper_line, lower_line, destination);
+    }
+}
+
+/**
+ * Experimental code to test new optimizations 
+ */
+template <typename T>
+void forward_vertical_step_optimized(const ReversibleLiftingStep &s,
+                                     const std::span<const T> &upper_line,
+                                     const std::span<const T> &lower_line,
+                                     const std::span<T> &destination)
+{
+    assert(upper_line.size() >= destination.size());
+    assert(lower_line.size() >= destination.size());
+
+    // Note - using iterators and range for can result in higher performance due to compiler optimizations
+    auto lower_line_iterator = std::cbegin(lower_line);
+    auto upper_line_iterator = std::cbegin(upper_line);
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (auto &dest : destination)
+    {
+        dest = (s.beta() + s.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >> s.epsilon();
+        // TODO: Original code below - do we need dest += or can we just do dest=?
+        //dest += (s.beta() + s.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >> s.epsilon();
+        ++upper_line_iterator;
+        ++lower_line_iterator;
     }
 }
 

@@ -15,6 +15,7 @@ namespace
 using namespace openjph;
 using namespace openjph::wavelet;
 
+// TODO: set this to the common buffer length or change to a range of values to test different ones
 const int buffer_length = 4096;
 si32 upper_line_buffer[buffer_length] = {0};
 si32 lower_line_buffer[buffer_length] = {0};
@@ -52,7 +53,7 @@ void BW_ForwardVerticalStepOriginal(benchmark::State &state)
 
     for (auto _ : state)
     {
-        benchmark::DoNotOptimize(destination_buffer); // lvalue to avoid undesired compiler optimizations
+        benchmark::DoNotOptimize(destination_buffer);
         general::reversible::gen_rev_vert_step32(&liftingStep,
                                                  &upper_line,
                                                  &lower_line,
@@ -76,16 +77,12 @@ void BW_ForwardVerticalStepRefactored(benchmark::State &state)
     resetFixtures();
     for (auto _ : state)
     {
-        benchmark::DoNotOptimize(destination_buffer); // lvalue to avoid undesired compiler optimizations
-        general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
-                                                                   upper_line,
-                                                                   lower_line,
-                                                                   destination);
+        benchmark::DoNotOptimize(destination_buffer);
+        general::reversible::forward_vertical_step<si32>(reversible_lifting_step, upper_line, lower_line, destination);
         benchmark::ClobberMemory();
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
-// Register the function as a benchmark
 BENCHMARK(BW_ForwardVerticalStepRefactored);
 
 void BW_ForwardVerticalStepOptimized(benchmark::State &state)
@@ -99,18 +96,16 @@ void BW_ForwardVerticalStepOptimized(benchmark::State &state)
 
     for (auto _ : state)
     {
-        benchmark::DoNotOptimize(destination_buffer); // lvalue to avoid undesired compiler optimizations
-        general::reversible::forward_vertical_step_general<si32>(reversible_lifting_step,
-                                                                 upper_line,
-                                                                 lower_line,
-                                                                 destination);
+        benchmark::DoNotOptimize(destination_buffer);
+        general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
+                                                                   upper_line,
+                                                                   lower_line,
+                                                                   destination);
         benchmark::ClobberMemory();
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
-// Register the function as a benchmark
 BENCHMARK(BW_ForwardVerticalStepOptimized);
-
 
 } // namespace
 
