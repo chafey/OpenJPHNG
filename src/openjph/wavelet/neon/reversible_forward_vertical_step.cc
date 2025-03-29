@@ -15,7 +15,7 @@ namespace reversible
 {
 
 // The general definition of the wavelet in Part 2 is slightly
-// different to part 2, although they are mathematically equivalent
+// different to part 3, although they are mathematically equivalent
 // here, we identify the simpler form from Part 1 and employ them
 
 /////////////////////////////////////////////////////////////////////////

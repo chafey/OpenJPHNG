@@ -12,8 +12,8 @@ cmake .. \
 #make -j && ctest
 #make -j && tests/openjph/openjph-unittest
 cd ..
-cmake  --build . --preset benchmark 
+cmake  --build . --preset benchmark -j && \
 #make -j && tests/openjph/wavelet/general/openjph-wavelet-general-test && benchmarks/openjph-benchmark
-#build/benchmark/tests/openjph/wavelet/general/openjph-wavelet-general-test
-build/benchmark/tests/openjph/wavelet/neon/openjph-wavelet-neon-test 
+build/benchmark/tests/openjph/wavelet/general/openjph-wavelet-general-test && \
+#build/benchmark/tests/openjph/wavelet/neon/openjph-wavelet-neon-test 
 build/benchmark/benchmarks/openjph-benchmark

@@ -1,3 +1,4 @@
+#include "../src/openjph/wavelet/avx512/reversible_forward_vertical_step.h"
 #include "../src/openjph/wavelet/avx512/reversible_vertical_step_original.h"
 #include "../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
 #include "../src/openjph/wavelet/general/reversible_vertical_step.h"
@@ -49,7 +50,7 @@ void BW_ForwardVerticalStepOriginal(benchmark::State &state)
     liftingStep.rev.Eatk = 1;
 
     ui32 repeat = buffer_length;
-    bool synthesis = true;
+    bool synthesis = false;
 
 
     for (auto _ : state)
@@ -108,8 +109,8 @@ void BW_ForwardVerticalStepOptimized(benchmark::State &state)
 }
 //BENCHMARK(BW_ForwardVerticalStepOptimized);
 
-/*
-void BW_ForwardVerticalStepAVX512(benchmark::State &state)
+#ifdef __x86_64__
+void BW_ForwardVerticalStepAVX512Original(benchmark::State &state)
 {
     const int length = buffer_length;
     ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
@@ -125,25 +126,134 @@ void BW_ForwardVerticalStepAVX512(benchmark::State &state)
     liftingStep.rev.Eatk = 1;
 
     ui32 repeat = buffer_length;
-    bool synthesis = true;
-
+    bool synthesis = false;
 
     for (auto _ : state)
     {
         benchmark::DoNotOptimize(destination_buffer);
         openjph::wavelet::avx512::reversible::avx512_rev_vert_step32_original(&liftingStep,
-                                                                     &upper_line,
-                                                                     &lower_line,
-                                                                     &destination,
-                                                                     repeat,
-                                                                     synthesis);
+                                                                              &upper_line,
+                                                                              &lower_line,
+                                                                              &destination,
+                                                                              repeat,
+                                                                              synthesis);
         benchmark::ClobberMemory();
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
-BENCHMARK(BW_ForwardVerticalStepAVX512);
-*/
+BENCHMARK(BW_ForwardVerticalStepAVX512Original);
 
+void BW_ForwardVerticalStepAVX512Refactored(benchmark::State &state)
+{
+    const int length = buffer_length;
+    ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
+    std::span<const si32> upper_line(upper_line_buffer, length);
+    std::span<const si32> lower_line(lower_line_buffer, length);
+    std::span<si32> destination(destination_buffer, length);
+    resetFixtures();
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::avx512::reversible::avx512_reversible_forward_vertial_step_refactored(reversible_lifting_step,
+                                                                                                upper_line,
+                                                                                                lower_line,
+                                                                                                destination);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepAVX512Refactored);
+
+void BW_ForwardVerticalStepAVX512C1B0E1(benchmark::State &state)
+{
+    const int length = buffer_length;
+    std::span<const si32> upper_line(upper_line_buffer, length);
+    std::span<const si32> lower_line(lower_line_buffer, length);
+    std::span<si32> destination(destination_buffer, length);
+    resetFixtures();
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::avx512::reversible::avx512_reversible_forward_vertial_step_c1_b0_e1(upper_line,
+                                                                                              lower_line,
+                                                                                              destination);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepAVX512C1B0E1);
+
+void BW_ForwardVerticalStepAVX512CN1B1E1(benchmark::State &state)
+{
+    const int length = buffer_length;
+    std::span<const si32> upper_line(upper_line_buffer, length);
+    std::span<const si32> lower_line(lower_line_buffer, length);
+    std::span<si32> destination(destination_buffer, length);
+    resetFixtures();
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::avx512::reversible::avx512_reversible_forward_vertial_step_cn1_b1_e1(upper_line,
+                                                                                               lower_line,
+                                                                                               destination);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepAVX512CN1B1E1);
+
+void BW_ForwardVerticalStepAVX512CN1(benchmark::State &state)
+{
+    const int length = buffer_length;
+    std::span<const si32> upper_line(upper_line_buffer, length);
+    std::span<const si32> lower_line(lower_line_buffer, length);
+    std::span<si32> destination(destination_buffer, length);
+    resetFixtures();
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::avx512::reversible::avx512_reversible_forward_vertial_step_cn1(2,
+                                                                                         1,
+                                                                                         upper_line,
+                                                                                         lower_line,
+                                                                                         destination);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepAVX512CN1);
+
+
+void BW_ForwardVerticalStepAVX512General(benchmark::State &state)
+{
+    const int length = buffer_length;
+    ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
+    std::span<const si32> upper_line(upper_line_buffer, length);
+    std::span<const si32> lower_line(lower_line_buffer, length);
+    std::span<si32> destination(destination_buffer, length);
+    resetFixtures();
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::avx512::reversible::avx512_reversible_forward_vertial_step_general(reversible_lifting_step,
+                                                                                             upper_line,
+                                                                                             lower_line,
+                                                                                             destination);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepAVX512General);
+
+
+#endif
+
+#ifdef __ARM_NEON
 void BW_ForwardVerticalStepNEON(benchmark::State &state)
 {
     const int length = buffer_length;
@@ -165,6 +275,7 @@ void BW_ForwardVerticalStepNEON(benchmark::State &state)
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
 BENCHMARK(BW_ForwardVerticalStepNEON);
+#endif
 
 } // namespace
 
