@@ -1,4 +1,7 @@
 #rm -rf build
+#export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+#export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
+#export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 mkdir -p build
 cd build
 cmake .. \
@@ -11,5 +14,6 @@ cmake .. \
 cd ..
 cmake  --build . --preset benchmark 
 #make -j && tests/openjph/wavelet/general/openjph-wavelet-general-test && benchmarks/openjph-benchmark
-build/benchmark/tests/openjph/wavelet/general/openjph-wavelet-general-test
+#build/benchmark/tests/openjph/wavelet/general/openjph-wavelet-general-test
+build/benchmark/tests/openjph/wavelet/neon/openjph-wavelet-neon-test 
 build/benchmark/benchmarks/openjph-benchmark

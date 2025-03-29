@@ -11,6 +11,6 @@ add_executable(openjph-benchmark
     wavelet_benchmark.cc
     )
 
-target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general openjph-wavelet-avx512)
+target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general openjph-wavelet-neon)# openjph-wavelet-avx512)
 
 

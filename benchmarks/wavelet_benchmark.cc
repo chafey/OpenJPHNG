@@ -1,6 +1,7 @@
-#include "../src/openjph/wavelet/avx512/reversible_forward_vertical_step.h"
+#include "../src/openjph/wavelet/avx512/reversible_vertical_step_original.h"
 #include "../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
 #include "../src/openjph/wavelet/general/reversible_vertical_step.h"
+#include "../src/openjph/wavelet/neon/reversible_forward_vertical_step.h"
 #include <benchmark/benchmark.h>
 #include <gtest/gtest.h>
 #include <openjph/line_buf.h>
@@ -105,8 +106,9 @@ void BW_ForwardVerticalStepOptimized(benchmark::State &state)
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
-BENCHMARK(BW_ForwardVerticalStepOptimized);
+//BENCHMARK(BW_ForwardVerticalStepOptimized);
 
+/*
 void BW_ForwardVerticalStepAVX512(benchmark::State &state)
 {
     const int length = buffer_length;
@@ -129,7 +131,7 @@ void BW_ForwardVerticalStepAVX512(benchmark::State &state)
     for (auto _ : state)
     {
         benchmark::DoNotOptimize(destination_buffer);
-        openjph::wavelet::avx512::reversible::avx512_rev_vert_step32(&liftingStep,
+        openjph::wavelet::avx512::reversible::avx512_rev_vert_step32_original(&liftingStep,
                                                                      &upper_line,
                                                                      &lower_line,
                                                                      &destination,
@@ -140,7 +142,29 @@ void BW_ForwardVerticalStepAVX512(benchmark::State &state)
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
 BENCHMARK(BW_ForwardVerticalStepAVX512);
+*/
 
+void BW_ForwardVerticalStepNEON(benchmark::State &state)
+{
+    const int length = buffer_length;
+    ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
+    std::span<const si32> upper_line(upper_line_buffer, length);
+    std::span<const si32> lower_line(lower_line_buffer, length);
+    std::span<si32> destination(destination_buffer, length);
+    resetFixtures();
+
+    for (auto _ : state)
+    {
+        benchmark::DoNotOptimize(destination_buffer);
+        openjph::wavelet::neon::reversible::neon_forward_vertical_step(reversible_lifting_step,
+                                                                       upper_line,
+                                                                       lower_line,
+                                                                       destination);
+        benchmark::ClobberMemory();
+    }
+    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
+}
+BENCHMARK(BW_ForwardVerticalStepNEON);
 
 } // namespace
 
