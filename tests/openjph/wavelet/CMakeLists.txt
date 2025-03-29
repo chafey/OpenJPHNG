@@ -1,2 +1,5 @@
 add_subdirectory(general)
-#add_subdirectory(neon)
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "aarch64")
+add_subdirectory(neon)
+endif()

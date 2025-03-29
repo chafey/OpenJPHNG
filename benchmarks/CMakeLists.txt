@@ -9,9 +9,15 @@ FetchContent_MakeAvailable(googlebenchmark)
 
 add_executable(openjph-benchmark
     wavelet_benchmark.cc
-    )
+)
 
-#target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general openjph-wavelet-neon)
-target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general openjph-wavelet-avx512)
+ message(CMAKE_SYSTEM_PROCESSOR="${CMAKE_SYSTEM_PROCESSOR}")
 
+if(CMAKE_SYSTEM_PROCESSOR STREQUAL "x86_64")
+    target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general openjph-wavelet-avx512)
+elseif(CMAKE_SYSTEM_PROCESSOR STREQUAL "arm64")
+    target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general openjph-wavelet-neon)
+else()
+    target_link_libraries(openjph-benchmark PUBLIC GTest::gtest_main benchmark::benchmark openjph openjph-wavelet-general)
+endif()
 
