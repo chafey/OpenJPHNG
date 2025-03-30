@@ -69,6 +69,7 @@ Future:
 * TODO: style guide - [google c++ coding standards?](https://google.github.io/styleguide/cppguide.html)
 * TODO: policies (zero warning, CI passes, unit test coverage?) 
 * TODO: Supported IDEs (VS Code, Xcode?, Visual Studio?)
+* Read Agner Fog's [Optimizing Software in C++](https://www.agner.org/optimize/optimizing_cpp.pdf)
 
 # FAQ
 

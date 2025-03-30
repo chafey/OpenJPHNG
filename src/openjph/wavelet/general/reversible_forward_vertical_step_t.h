@@ -32,21 +32,86 @@ namespace reversible
  * The general case for wavelet forward vertical step transform
  */
 template <typename T>
-void forward_vertical_step_general(const ReversibleLiftingStep &s,
-                                   const std::span<const T> &upper_line,
-                                   const std::span<const T> &lower_line,
-                                   const std::span<T> &destination)
+void reversible_forward_vertical_step_general(const ReversibleLiftingStep &s,
+                                              const std::span<const T> &upper_line,
+                                              const std::span<const T> &lower_line,
+                                              const std::span<T> &destination)
 {
     assert(upper_line.size() >= destination.size());
     assert(lower_line.size() >= destination.size());
 
-    // Note - using iterators and range for can result in higher performance due to compiler optimizations
     auto lower_line_iterator = std::cbegin(lower_line);
     auto upper_line_iterator = std::cbegin(upper_line);
 #pragma clang loop vectorize(enable) interleave(enable)
     for (auto &dest : destination)
     {
         dest += (s.beta() + s.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >> s.epsilon();
+        ++upper_line_iterator;
+        ++lower_line_iterator;
+    }
+}
+/**
+ * Optimized case for wavelet forward vertical step transform when lifting_coefficient =1, beta = 0, epsilon = 1
+ */
+template <typename T>
+void reversible_forward_vertical_step_c1_b0_e1(const std::span<const T> &upper_line,
+                                               const std::span<const T> &lower_line,
+                                               const std::span<T> &destination)
+{
+    assert(upper_line.size() >= destination.size());
+    assert(lower_line.size() >= destination.size());
+
+    auto lower_line_iterator = std::cbegin(lower_line);
+    auto upper_line_iterator = std::cbegin(upper_line);
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (auto &dest : destination)
+    {
+        dest += (*upper_line_iterator + *lower_line_iterator) >> 1;
+        ++upper_line_iterator;
+        ++lower_line_iterator;
+    }
+}
+
+/**
+ * Optimized case for wavelet forward vertical step transform when lifting_coefficient =-1, beta = 1, epsilon = 1
+ */
+template <typename T>
+void reversible_forward_vertical_step_cn1_b1_e1(const std::span<const T> &upper_line,
+                                                const std::span<const T> &lower_line,
+                                                const std::span<T> &destination)
+{
+    assert(upper_line.size() >= destination.size());
+    assert(lower_line.size() >= destination.size());
+
+    auto lower_line_iterator = std::cbegin(lower_line);
+    auto upper_line_iterator = std::cbegin(upper_line);
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (auto &dest : destination)
+    {
+        dest -= (*upper_line_iterator + *lower_line_iterator) >> 1;
+        ++upper_line_iterator;
+        ++lower_line_iterator;
+    }
+}
+/**
+ * Optimized case for wavelet forward vertical step transform when lifting_coefficient =-1
+ */
+template <typename T>
+void reversible_forward_vertical_step_cn1(si16 beta,
+                                          ui8 epsilon,
+                                          const std::span<const T> &upper_line,
+                                          const std::span<const T> &lower_line,
+                                          const std::span<T> &destination)
+{
+    assert(upper_line.size() >= destination.size());
+    assert(lower_line.size() >= destination.size());
+
+    auto lower_line_iterator = std::cbegin(lower_line);
+    auto upper_line_iterator = std::cbegin(upper_line);
+#pragma clang loop vectorize(enable) interleave(enable)
+    for (auto &dest : destination)
+    {
+        dest += (beta - (*upper_line_iterator + *lower_line_iterator)) >> epsilon;
         ++upper_line_iterator;
         ++lower_line_iterator;
     }
@@ -58,83 +123,35 @@ void forward_vertical_step_general(const ReversibleLiftingStep &s,
  *       values of the lifting step properties 
  */
 template <typename T>
-void forward_vertical_step(const ReversibleLiftingStep &s,
-                           const std::span<const T> &upper_line,
-                           const std::span<const T> &lower_line,
-                           const std::span<T> &destination)
+void reversible_forward_vertical_step_refactored(const ReversibleLiftingStep &s,
+                                                 const std::span<const T> &upper_line,
+                                                 const std::span<const T> &lower_line,
+                                                 const std::span<T> &destination)
 {
     assert(upper_line.size() >= destination.size());
     assert(lower_line.size() >= destination.size());
-    const T lifting_coefficient = s.lifting_coefficient();
-    const T beta = s.beta();
-    const ui8 epsilon = s.epsilon();
 
-    auto lower_line_iterator = std::cbegin(lower_line);
-    auto upper_line_iterator = std::cbegin(upper_line);
-    if (lifting_coefficient == 1)
+    if (s.lifting_coefficient() == 1 && s.beta() == 0 && s.epsilon() == 1)
     {
-        for (auto &dest : destination)
-        {
-            // TODO: can we change += to =?
-            dest += (beta + (*upper_line_iterator + *lower_line_iterator)) >> epsilon;
-            ++upper_line_iterator;
-            ++lower_line_iterator;
-        }
+        reversible_forward_vertical_step_c1_b0_e1(upper_line, lower_line, destination);
     }
-    else if (lifting_coefficient == -1 && beta == 1 && epsilon == 1)
+    else if (s.lifting_coefficient() == -1)
     {
-        // 5/3 predict
-        for (auto &dest : destination)
+        if (s.beta() == 1 && s.epsilon() == 1)
         {
-            // TODO: can we change += to =?
-            dest += (*upper_line_iterator + *lower_line_iterator) >> epsilon;
-            ++upper_line_iterator;
-            ++lower_line_iterator;
+            reversible_forward_vertical_step_cn1_b1_e1(upper_line, lower_line, destination);
         }
-    }
-    else if (lifting_coefficient == -1)
-    {
-        // any case with a == -1, which is not 5/3 predict
-        for (auto &dest : destination)
+        else
         {
-            // TODO: can we change += to =?
-            dest += (beta - (*upper_line_iterator + *lower_line_iterator)) >> epsilon;
-            ++upper_line_iterator;
-            ++lower_line_iterator;
+            reversible_forward_vertical_step_cn1(s.beta(), s.epsilon(), upper_line, lower_line, destination);
         }
     }
     else
     {
-        // general case
-        forward_vertical_step_general(s, upper_line, lower_line, destination);
+        reversible_forward_vertical_step_general(s, upper_line, lower_line, destination);
     }
 }
 
-/**
- * Experimental code to test new optimizations 
- */
-template <typename T>
-void forward_vertical_step_optimized(const ReversibleLiftingStep &s,
-                                     const std::span<const T> &upper_line,
-                                     const std::span<const T> &lower_line,
-                                     const std::span<T> &destination)
-{
-    assert(upper_line.size() >= destination.size());
-    assert(lower_line.size() >= destination.size());
-
-    // Note - using iterators and range for can result in higher performance due to compiler optimizations
-    auto lower_line_iterator = std::cbegin(lower_line);
-    auto upper_line_iterator = std::cbegin(upper_line);
-#pragma clang loop vectorize(enable) interleave(enable)
-    for (auto &dest : destination)
-    {
-        dest = (s.beta() + s.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >> s.epsilon();
-        // TODO: Original code below - do we need dest += or can we just do dest=?
-        //dest += (s.beta() + s.lifting_coefficient() * (*upper_line_iterator + *lower_line_iterator)) >> s.epsilon();
-        ++upper_line_iterator;
-        ++lower_line_iterator;
-    }
-}
 
 }; // namespace reversible
 }; // namespace general

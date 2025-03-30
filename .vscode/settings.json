@@ -90,7 +90,9 @@
         "ratio": "cpp",
         "streambuf": "cpp",
         "algorithm": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "cinttypes": "cpp",
+        "codecvt": "cpp"
     },
     "C_Cpp.formatting": "clangFormat"
 }

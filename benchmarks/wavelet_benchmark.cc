@@ -1,7 +1,7 @@
 #include "../src/openjph/wavelet/avx512/reversible_forward_vertical_step.h"
 #include "../src/openjph/wavelet/avx512/reversible_vertical_step_original.h"
 #include "../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
-#include "../src/openjph/wavelet/general/reversible_vertical_step.h"
+#include "../src/openjph/wavelet/general/reversible_vertical_step_original.h"
 #include "../src/openjph/wavelet/neon/reversible_forward_vertical_step.h"
 #include <benchmark/benchmark.h>
 #include <gtest/gtest.h>
@@ -56,12 +56,12 @@ void BW_ForwardVerticalStepOriginal(benchmark::State &state)
     for (auto _ : state)
     {
         benchmark::DoNotOptimize(destination_buffer);
-        general::reversible::gen_rev_vert_step32(&liftingStep,
-                                                 &upper_line,
-                                                 &lower_line,
-                                                 &destination,
-                                                 repeat,
-                                                 synthesis);
+        general::reversible::gen_rev_vert_step32_original(&liftingStep,
+                                                          &upper_line,
+                                                          &lower_line,
+                                                          &destination,
+                                                          repeat,
+                                                          synthesis);
         benchmark::ClobberMemory();
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
@@ -80,34 +80,15 @@ void BW_ForwardVerticalStepRefactored(benchmark::State &state)
     for (auto _ : state)
     {
         benchmark::DoNotOptimize(destination_buffer);
-        general::reversible::forward_vertical_step<si32>(reversible_lifting_step, upper_line, lower_line, destination);
+        general::reversible::reversible_forward_vertical_step_refactored<si32>(reversible_lifting_step,
+                                                                               upper_line,
+                                                                               lower_line,
+                                                                               destination);
         benchmark::ClobberMemory();
     }
     state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
 }
 BENCHMARK(BW_ForwardVerticalStepRefactored);
-
-void BW_ForwardVerticalStepOptimized(benchmark::State &state)
-{
-    const int length = buffer_length;
-    ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
-    span<const si32> upper_line(upper_line_buffer, length);
-    span<const si32> lower_line(lower_line_buffer, length);
-    span<si32> destination(destination_buffer, length);
-    resetFixtures();
-
-    for (auto _ : state)
-    {
-        benchmark::DoNotOptimize(destination_buffer);
-        general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
-                                                                   upper_line,
-                                                                   lower_line,
-                                                                   destination);
-        benchmark::ClobberMemory();
-    }
-    state.SetBytesProcessed(int64_t(state.iterations()) * length * sizeof(si32));
-}
-//BENCHMARK(BW_ForwardVerticalStepOptimized);
 
 #ifdef __x86_64__
 void BW_ForwardVerticalStepAVX512Original(benchmark::State &state)

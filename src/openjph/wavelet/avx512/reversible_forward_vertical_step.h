@@ -28,12 +28,15 @@ void avx512_reversible_forward_vertial_step_general(const ReversibleLiftingStep 
                                                     const std::span<const si32> &upper_line,
                                                     const std::span<const si32> &lower_line,
                                                     const std::span<si32> &destination);
+
 void avx512_reversible_forward_vertial_step_c1_b0_e1(const std::span<const si32> &upper_line,
                                                      const std::span<const si32> &lower_line,
                                                      const std::span<si32> &destination);
+
 void avx512_reversible_forward_vertial_step_cn1_b1_e1(const std::span<const si32> &upper_line,
                                                       const std::span<const si32> &lower_line,
                                                       const std::span<si32> &destination);
+
 void avx512_reversible_forward_vertial_step_cn1(si16 beta,
                                                 ui8 epsilon,
                                                 const std::span<const si32> &upper_line,

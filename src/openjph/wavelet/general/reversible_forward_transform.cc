@@ -1,5 +1,5 @@
 #include "reversible_horizontal_ana.h"
-#include "reversible_vertical_step.h"
+#include "reversible_vertical_step_original.h"
 #include <openjph/line_buf.h>
 #include <openjph/wavelet/general/reversible_forward_transform.h>
 #include <openjph/wavelet/lifting_step.h>
@@ -26,14 +26,14 @@ void general::reversible::ForwardTransform::VerticalStep(const lifting_step *s,
         assert((sig == NULL || sig->flags & line_buf::LFT_32BIT) &&
                (other == NULL || other->flags & line_buf::LFT_32BIT) &&
                (aug == NULL || aug->flags & line_buf::LFT_32BIT));
-        reversible::gen_rev_vert_step32(s, sig, other, aug, repeat, synthesis);
+        reversible::gen_rev_vert_step32_original(s, sig, other, aug, repeat, synthesis);
     }
     else
     {
         assert((sig == NULL || sig->flags & line_buf::LFT_64BIT) &&
                (other == NULL || other->flags & line_buf::LFT_64BIT) &&
                (aug == NULL || aug->flags & line_buf::LFT_64BIT));
-        reversible::gen_rev_vert_step64(s, sig, other, aug, repeat, synthesis);
+        reversible::gen_rev_vert_step64_original(s, sig, other, aug, repeat, synthesis);
     }
 }
 

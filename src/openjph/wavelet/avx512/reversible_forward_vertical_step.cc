@@ -26,27 +26,25 @@ void avx512_reversible_forward_vertial_step_refactored(const ReversibleLiftingSt
     if (lifting_step.lifting_coefficient() == 1 && lifting_step.beta() == 0 && lifting_step.epsilon() == 1)
     {
         avx512_reversible_forward_vertial_step_c1_b0_e1(upper_line, lower_line, destination);
-        return;
+    }
+    else if (lifting_step.lifting_coefficient() == -1 && lifting_step.beta() == 1 && lifting_step.epsilon() == 1)
+    {
+        avx512_reversible_forward_vertial_step_cn1_b1_e1(upper_line, lower_line, destination);
     }
     else if (lifting_step.lifting_coefficient() == -1)
     {
-        if (lifting_step.beta() == 1 && lifting_step.epsilon() == 1)
-        {
-            avx512_reversible_forward_vertial_step_cn1_b1_e1(upper_line, lower_line, destination);
-            return;
-        }
-        else
-        {
-            avx512_reversible_forward_vertial_step_cn1(lifting_step.beta(),
-                                                       lifting_step.epsilon(),
-                                                       upper_line,
-                                                       lower_line,
-                                                       destination);
-            return;
-        }
+        avx512_reversible_forward_vertial_step_cn1(lifting_step.beta(),
+                                                   lifting_step.epsilon(),
+                                                   upper_line,
+                                                   lower_line,
+                                                   destination);
     }
-    // general case
-    avx512_reversible_forward_vertial_step_general(lifting_step, upper_line, lower_line, destination);
+    else
+    {
+
+        //general case
+        avx512_reversible_forward_vertial_step_general(lifting_step, upper_line, lower_line, destination);
+    }
 }
 
 /////////////////////////////////////////////////////////////////////////

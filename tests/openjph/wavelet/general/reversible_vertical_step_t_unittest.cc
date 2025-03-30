@@ -1,6 +1,5 @@
 #include "../../../../src/openjph/wavelet/general/reversible_forward_vertical_step_t.h"
-#include "../../../../src/openjph/wavelet/general/reversible_vertical_step.h"
-#include "../../../../src/openjph/wavelet/general/reversible_vertical_step_t.h"
+#include "../../../../src/openjph/wavelet/general/reversible_vertical_step_original.h"
 #include <gtest/gtest.h>
 #include <openjph/line_buf.h>
 #include <openjph/wavelet/general/reversible_forward_transform.h>
@@ -25,21 +24,6 @@ void printArray(T *array, size_t length)
     cout << endl;
 }
 
-TEST(WaveletGeneralReversibleVerticalStepT, HappyPath)
-{
-    lifting_step liftingStep;
-    const int length = 4;
-    si32 signal1[length] = {1, 2, 3, 4};
-    span<si32> signal1Span(signal1, length);
-    si32 signal2[length] = {-5, -6, -7, -8};
-    span<si32> signal2Span(signal2, length);
-    si32 destination[length] = {0};
-    span<si32> destinationSpan(destination, length);
-    ui32 repeat = 32;
-    bool synthesis = true;
-    general::reversible::vertical_step<si32>(liftingStep, signal1Span, signal2Span, destinationSpan, synthesis);
-}
-
 
 TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
 {
@@ -60,7 +44,7 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     aug.wrap(augb, length, 0);
     ui32 repeat = length;
     bool synthesis = false;
-    general::reversible::gen_rev_vert_step32(&liftingStep, &sig, &oth, &aug, repeat, synthesis);
+    general::reversible::gen_rev_vert_step32_original(&liftingStep, &sig, &oth, &aug, repeat, synthesis);
     printArray<si32>(augb, length);
 
     ReversibleLiftingStep reversible_lifting_step(1, 0, 1);
@@ -71,10 +55,10 @@ TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
     si32 destination_buffer[length] = {0};
     span<si32> destination(destination_buffer, length);
 
-    openjph::wavelet::general::reversible::forward_vertical_step<si32>(reversible_lifting_step,
-                                                                       upper_line,
-                                                                       lower_line,
-                                                                       destination);
+    openjph::wavelet::general::reversible::reversible_forward_vertical_step_refactored<si32>(reversible_lifting_step,
+                                                                                             upper_line,
+                                                                                             lower_line,
+                                                                                             destination);
 
     /*general::reversible::forward_vertical_step_optimized<si32>(reversible_lifting_step,
                                                                upper_line,

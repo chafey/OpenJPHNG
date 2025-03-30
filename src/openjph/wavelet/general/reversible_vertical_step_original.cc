@@ -14,12 +14,12 @@ namespace reversible
 {
 
 /////////////////////////////////////////////////////////////////////////
-void gen_rev_vert_step32(const lifting_step *s,
-                         const line_buf *sig,
-                         const line_buf *other,
-                         const line_buf *aug,
-                         ui32 repeat,
-                         bool synthesis)
+void gen_rev_vert_step32_original(const lifting_step *s,
+                                  const line_buf *sig,
+                                  const line_buf *other,
+                                  const line_buf *aug,
+                                  ui32 repeat,
+                                  bool synthesis)
 {
     const si32 a = s->rev.Aatk;
     const si32 b = s->rev.Batk;
@@ -70,12 +70,12 @@ void gen_rev_vert_step32(const lifting_step *s,
 }
 
 /////////////////////////////////////////////////////////////////////////
-void gen_rev_vert_step64(const lifting_step *s,
-                         const line_buf *sig,
-                         const line_buf *other,
-                         const line_buf *aug,
-                         ui32 repeat,
-                         bool synthesis)
+void gen_rev_vert_step64_original(const lifting_step *s,
+                                  const line_buf *sig,
+                                  const line_buf *other,
+                                  const line_buf *aug,
+                                  ui32 repeat,
+                                  bool synthesis)
 {
     const si64 a = s->rev.Aatk;
     const si64 b = s->rev.Batk;
