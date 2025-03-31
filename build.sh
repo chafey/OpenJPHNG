@@ -3,19 +3,26 @@
 #export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 #export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 mkdir -p build
-CONFIGPRESET="debug"
-#CONFIGPRESET="benchmark"
-BUILDPRESET="debug"
-#BUILDPRESET="benchmark"
-TESTPRESET="debug-test-all"
+#CONFIGPRESET="debug"
+CONFIGPRESET="release"
+
+#BUILDPRESET="debug"
+#BUILDPRESET="debug-with-tests"
+#BUILDPRESET="release"
+#BUILDPRESET="release-with-tests"
+BUILDPRESET="benchmark"
+
+#TESTPRESET="debug-test-all"
+#TESTPRESET="release-test-all"
+TESTPRESET="benchmark-test-all"
 
 # use cmake to configure the build
 cmake \
     . \
     --preset $CONFIGPRESET \
-    -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
-    -DCMAKE_C_COMPILER=clang \
-    -DCMAKE_CXX_COMPILER=clang++ 
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=1 
+    #-DCMAKE_C_COMPILER=clang \
+    #-DCMAKE_CXX_COMPILER=clang++ 
 
 if [ $? -ne 0 ]; then
     exit 1
@@ -40,6 +47,6 @@ fi
 
 
 # run benchmarks if configured
-if [ "$CONFIGPRESET" == "benchmark" ] && [ "$BUILDPRESET" == "benchmark" ]; then
-    build/benchmark/benchmarks/openjph-benchmark
+if [ "$CONFIGPRESET" == "release" ] && [ "$BUILDPRESET" == "benchmark" ]; then
+    build/release/benchmarks/openjph-benchmark
 fi

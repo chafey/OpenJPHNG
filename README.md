@@ -92,4 +92,3 @@ Future:
 * Add instructions for using with XCode?
 * Add instructions for using with Visual Studio?
 * Add an application (ojph_compress?) skeleton that links to the library
-* Add support for different build configurations (debug, release) (via cmake presets?)
