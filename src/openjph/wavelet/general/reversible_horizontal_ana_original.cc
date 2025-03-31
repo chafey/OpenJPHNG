@@ -14,12 +14,12 @@ namespace reversible
 {
 
 /////////////////////////////////////////////////////////////////////////
-void gen_rev_horz_ana32(const param_atk *atk,
-                        const line_buf *ldst,
-                        const line_buf *hdst,
-                        const line_buf *src,
-                        ui32 width,
-                        bool even)
+void gen_rev_horz_ana32_original(const param_atk *atk,
+                                 const line_buf *ldst,
+                                 const line_buf *hdst,
+                                 const line_buf *src,
+                                 ui32 width,
+                                 bool even)
 {
     if (width > 1)
     {
@@ -104,12 +104,12 @@ void gen_rev_horz_ana32(const param_atk *atk,
 }
 
 /////////////////////////////////////////////////////////////////////////
-void gen_rev_horz_ana64(const param_atk *atk,
-                        const line_buf *ldst,
-                        const line_buf *hdst,
-                        const line_buf *src,
-                        ui32 width,
-                        bool even)
+void gen_rev_horz_ana64_original(const param_atk *atk,
+                                 const line_buf *ldst,
+                                 const line_buf *hdst,
+                                 const line_buf *src,
+                                 ui32 width,
+                                 bool even)
 {
     if (width > 1)
     {

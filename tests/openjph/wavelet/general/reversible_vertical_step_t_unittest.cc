@@ -25,7 +25,7 @@ void printArray(T *array, size_t length)
 }
 
 
-TEST(WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
+TEST(OPENJPH_WaveletGeneralReversibleVerticalStepT, CompareWithOriginalImplementation)
 {
     lifting_step liftingStep;
     liftingStep.rev.Aatk = 1;

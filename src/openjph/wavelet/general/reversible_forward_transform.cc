@@ -1,4 +1,4 @@
-#include "reversible_horizontal_ana.h"
+#include "reversible_horizontal_ana_original.h"
 #include "reversible_vertical_step_original.h"
 #include <openjph/line_buf.h>
 #include <openjph/wavelet/general/reversible_forward_transform.h>
@@ -48,13 +48,13 @@ void general::reversible::ForwardTransform::HorizontalAna(const param_atk *atk,
     {
         assert((ldst == NULL || ldst->flags & line_buf::LFT_32BIT) &&
                (hdst == NULL || hdst->flags & line_buf::LFT_32BIT));
-        reversible::gen_rev_horz_ana32(atk, ldst, hdst, src, width, even);
+        reversible::gen_rev_horz_ana32_original(atk, ldst, hdst, src, width, even);
     }
     else
     {
         assert((ldst == NULL || ldst->flags & line_buf::LFT_64BIT) &&
                (hdst == NULL || hdst->flags & line_buf::LFT_64BIT) &&
                (src == NULL || src->flags & line_buf::LFT_64BIT));
-        reversible::gen_rev_horz_ana64(atk, ldst, hdst, src, width, even);
+        reversible::gen_rev_horz_ana64_original(atk, ldst, hdst, src, width, even);
     }
 }

@@ -43,14 +43,38 @@
             "configurePreset": "default"
         },
         {
+            "name": "debug",
+            "configurePreset": "debug",
+            "targets": [
+                "openjph-unittest",
+                "openjph-wavelet-general-test"
+            ]
+        },
+        {
             "name": "benchmark",
-            "configurePreset": "benchmark"
+            "configurePreset": "benchmark",
+            "targets": [
+                "openjph-benchmark",
+                "openjph-unittest",
+                "openjph-wavelet-general-test"
+            ]
         }
     ],
     "testPresets": [
         {
-            "name": "default",
-            "configurePreset": "default",
+            "name": "debug-test-all",
+            "configurePreset": "debug",
+            "output": {
+                "outputOnFailure": true
+            },
+            "execution": {
+                "noTestsAction": "error",
+                "stopOnFailure": true
+            }
+        },
+        {
+            "name": "release-test-all",
+            "configurePreset": "benchmark",
             "output": {
                 "outputOnFailure": true
             },
@@ -59,42 +83,5 @@
                 "stopOnFailure": true
             }
         }
-    ],
-    "packagePresets": [
-        {
-            "name": "default",
-            "configurePreset": "default",
-            "generators": [
-                "TGZ"
-            ]
-        }
-    ],
-    "workflowPresets": [
-        {
-            "name": "default",
-            "steps": [
-                {
-                    "type": "configure",
-                    "name": "default"
-                },
-                {
-                    "type": "build",
-                    "name": "default"
-                },
-                {
-                    "type": "test",
-                    "name": "default"
-                },
-                {
-                    "type": "package",
-                    "name": "default"
-                }
-            ]
-        }
-    ],
-    "vendor": {
-        "example.com/ExampleIDE/1.0": {
-            "autoFormat": false
-        }
-    }
+    ]
 }

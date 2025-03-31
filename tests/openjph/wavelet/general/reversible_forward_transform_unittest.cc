@@ -1,17 +1,19 @@
 #include <gtest/gtest.h>
+#include <openjph/line_buf.h>
 #include <openjph/wavelet/general/reversible_forward_transform.h>
 #include <openjph/wavelet/lifting_step.h>
 #include <openjph/wavelet/param_atk.h>
-#include <openjph/line_buf.h>
 
-namespace {
+namespace
+{
 
-    using namespace openjph;
-    using namespace openjph::wavelet;
+using namespace openjph;
+using namespace openjph::wavelet;
 
-    TEST(WaveletGeneralReversibleForwardTransform, HappyPath) {
-        openjph::wavelet::general::reversible::ForwardTransform xform;
-        /*
+TEST(OPENJPH_WaveletGeneralReversibleForwardTransform, HappyPath)
+{
+    openjph::wavelet::general::reversible::ForwardTransform xform;
+    /*
         // TODO: Fill these parameters out for a simple happy path
         lifting_step s;
         param_atk atk;
@@ -26,9 +28,10 @@ namespace {
         bool even;
         xform.HorizontalAna(&atk, &ldst, &hdst, &src, width, even);
         */
-    }
-
-    // TODO: add more tests
-    TEST(WaveletGeneralReversibleForwardTransform, InvalidParameter) {
-    }
 }
+
+// TODO: add more tests
+TEST(OPENJPH_WaveletGeneralReversibleForwardTransform, InvalidParameter)
+{
+}
+} // namespace

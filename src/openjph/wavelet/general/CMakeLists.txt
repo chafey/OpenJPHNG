@@ -7,5 +7,5 @@ target_include_directories(openjph-wavelet-general PUBLIC
 target_sources(openjph-wavelet-general  PRIVATE
   reversible_forward_transform.cc
   reversible_vertical_step_original.cc
-  reversible_horizontal_ana.cc
+  reversible_horizontal_ana_original.cc
 )

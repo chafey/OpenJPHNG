@@ -42,7 +42,7 @@ TEST(WaveletGeneralReversibleVerticalStepT, HappyPath)
 */
 
 
-TEST(WaveletNeonReversibleVerticalStepT, CompareWithOriginalImplementation)
+TEST(OPENJPH_WaveletNeonReversibleVerticalStepT, CompareWithOriginalImplementation)
 {
     lifting_step liftingStep;
     liftingStep.rev.Aatk = 1;

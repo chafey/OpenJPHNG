@@ -68,7 +68,6 @@ void BW_ForwardVerticalStepOriginal(benchmark::State &state)
 }
 BENCHMARK(BW_ForwardVerticalStepOriginal);
 
-
 void BW_ForwardVerticalStepRefactored(benchmark::State &state)
 {
     const int length = buffer_length;
