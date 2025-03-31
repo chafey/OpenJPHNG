@@ -34,6 +34,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 endif()
 
 # enable architecture specific optimizations
+# TODO: Move this to cmakepresets??
 add_compile_options(-march=native)
 
 # The compiled library code is here
@@ -49,6 +50,8 @@ set(FETCHCONTENT_BASE_DIR "${CMAKE_BINARY_DIR}/external")
 # Testing only available if this is the main app
 # Emergency override OPENJPG_BUILD_TESTING provided as well
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR OJPH_BUILD_TESTING) AND BUILD_TESTING)
+
+message("building with tests")
 
     include(CTest)
 

@@ -6,7 +6,6 @@ add_executable(openjph-unittest
     )
 
 target_link_libraries(openjph-unittest PUBLIC GTest::gtest_main openjph )
-#openjph-wavelet-general)
 
 include (GoogleTest)
 

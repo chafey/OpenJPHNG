@@ -1,4 +1,5 @@
 #rm -rf build
+# TODO: Move these to CMakeUserPresets.json
 #export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
 #export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 #export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
@@ -17,12 +18,13 @@ BUILDPRESET="benchmark"
 TESTPRESET="benchmark-test-all"
 
 # use cmake to configure the build
+# TODO: Move -DCMAKE* to CMakeUserPresets.json
 cmake \
     . \
     --preset $CONFIGPRESET \
-    -DCMAKE_EXPORT_COMPILE_COMMANDS=1 
-    #-DCMAKE_C_COMPILER=clang \
-    #-DCMAKE_CXX_COMPILER=clang++ 
+    -DCMAKE_EXPORT_COMPILE_COMMANDS=1 \
+    -DCMAKE_C_COMPILER=clang \
+    -DCMAKE_CXX_COMPILER=clang++ 
 
 if [ $? -ne 0 ]; then
     exit 1

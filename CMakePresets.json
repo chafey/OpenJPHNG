@@ -40,8 +40,19 @@
             "name": "release-with-tests",
             "inherits": "release",
             "targets": [
+                "openjph",
                 "openjph-unittest",
                 "openjph-wavelet-general-test"
+            ]
+        },
+        {
+            "name": "benchmark",
+            "inherits": "release-with-tests",
+            "targets": [
+                "openjph",
+                "openjph-unittest",
+                "openjph-wavelet-general-test",
+                "openjph-benchmark"
             ]
         },
         {
@@ -55,15 +66,9 @@
             "name": "debug-with-tests",
             "inherits": "debug",
             "targets": [
+                "openjph",
                 "openjph-unittest",
                 "openjph-wavelet-general-test"
-            ]
-        },
-        {
-            "name": "benchmark",
-            "inherits": "release-with-tests",
-            "targets": [
-                "openjph-benchmark"
             ]
         }
     ],
