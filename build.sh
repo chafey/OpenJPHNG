@@ -1,3 +1,4 @@
+#!/bin/bash
 #rm -rf build
 # TODO: Move these to CMakeUserPresets.json
 #export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
@@ -40,7 +41,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # use ctest to test
-if [[ -v TESTPRESET ]]; then
+if [[ -z TESTPRESET ]]; then
     ctest --test-dir build --build-config $BUILDPRESET --preset $TESTPRESET -all -R ^OPENJPH -j 
     if [ $? -ne 0 ]; then
         exit 1

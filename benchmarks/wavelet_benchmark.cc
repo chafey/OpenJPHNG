@@ -4,7 +4,6 @@
 #include "../src/openjph/wavelet/general/reversible_vertical_step_original.h"
 #include "../src/openjph/wavelet/neon/reversible_forward_vertical_step.h"
 #include <benchmark/benchmark.h>
-#include <gtest/gtest.h>
 #include <openjph/line_buf.h>
 #include <openjph/wavelet/general/reversible_forward_transform.h>
 #include <openjph/wavelet/lifting_step.h>
