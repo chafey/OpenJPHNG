@@ -4,7 +4,9 @@
             "name": "Mac",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${workspaceFolder}/build/external/googlebenchmark-src/include"
+                "${workspaceFolder}/build/release/external/googlebenchmark-src/include",
+                "${workspaceFolder}/build/release/external/googlebenchmark-src/include",
+                "${workspaceFolder}/build/release/external/googletest-src/googletest/include"
             ],
             "defines": [],
             "macFrameworkPath": [

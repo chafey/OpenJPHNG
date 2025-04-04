@@ -41,8 +41,10 @@ if [ $? -ne 0 ]; then
 fi
 
 # use ctest to test
-if [[ -z TESTPRESET ]]; then
-    ctest --test-dir build --build-config $BUILDPRESET --preset $TESTPRESET -all -R ^OPENJPH -j 
+if [ -n "$TESTPRESET" ]; then
+    echo "Running CTEST"
+    ctest -j --build-config $BUILDPRESET --preset $TESTPRESET -R ^OPENJPH -j 
+    #ctest --test-dir build --build-config $BUILDPRESET --preset $TESTPRESET -R ^OPENJPH -j 
     if [ $? -ne 0 ]; then
         exit 1
     fi
