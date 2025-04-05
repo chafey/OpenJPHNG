@@ -5,18 +5,18 @@
 #export LDFLAGS="-L/opt/homebrew/opt/llvm/lib"
 #export CPPFLAGS="-I/opt/homebrew/opt/llvm/include"
 mkdir -p build
-#CONFIGPRESET="debug"
-CONFIGPRESET="release"
+CONFIGPRESET="debug"
+#CONFIGPRESET="release"
 
 #BUILDPRESET="debug"
-#BUILDPRESET="debug-with-tests"
+BUILDPRESET="debug-with-tests"
 #BUILDPRESET="release"
 #BUILDPRESET="release-with-tests"
-BUILDPRESET="benchmark"
+#BUILDPRESET="benchmark"
 
-#TESTPRESET="debug-test-all"
+TESTPRESET="debug-test-all"
 #TESTPRESET="release-test-all"
-TESTPRESET="benchmark-test-all"
+#TESTPRESET="benchmark-test-all"
 
 # use cmake to configure the build
 # TODO: Move -DCMAKE* to CMakeUserPresets.json
@@ -43,7 +43,7 @@ fi
 # use ctest to test
 if [ -n "$TESTPRESET" ]; then
     echo "Running CTEST"
-    ctest -j --build-config $BUILDPRESET --preset $TESTPRESET -R ^OPENJPH -j 
+    ctest --verbose --output-on-failure -j --build-config $BUILDPRESET --preset $TESTPRESET -R ^OPENJPH_WaveletGeneralReversibleHo -j 
     #ctest --test-dir build --build-config $BUILDPRESET --preset $TESTPRESET -R ^OPENJPH -j 
     if [ $? -ne 0 ]; then
         exit 1

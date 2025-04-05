@@ -1,6 +1,8 @@
 
 add_library(openjph-wavelet-general)
 
+#target_link_libraries(openjph-wavelet-general PUBLIC openjph openjph-wavelet)
+
 target_include_directories(openjph-wavelet-general PUBLIC 
   "${PROJECT_SOURCE_DIR}/include/")
 
