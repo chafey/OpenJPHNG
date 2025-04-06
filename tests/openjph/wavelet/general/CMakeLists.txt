@@ -4,7 +4,7 @@ add_executable(openjph-wavelet-general-test
     reversible_forward_horizontal_t_unittest.cc
     )
 
-target_link_libraries(openjph-wavelet-general-test PUBLIC GTest::gtest_main openjph openjph-wavelet openjph-wavelet-general)
+target_link_libraries(openjph-wavelet-general-test PUBLIC GTest::gtest_main openjph)
 
 include (GoogleTest)
 
