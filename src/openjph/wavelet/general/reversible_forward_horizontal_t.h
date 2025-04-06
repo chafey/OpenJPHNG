@@ -51,6 +51,25 @@ void reversible_forward_horizontal_general(const ReversibleLiftingStep &s,
     }
 }
 
+void split_source(si32 *dph, si32 *dpl, si32 *sp, ui32 w, bool even)
+{
+    if (!even)
+    {
+        *dph++ = *sp++;
+        --w;
+    }
+    for (; w > 1; w -= 2)
+    {
+        *dpl++ = *sp++;
+        *dph++ = *sp++;
+    }
+    if (w)
+    {
+        *dpl++ = *sp++;
+        --w;
+    }
+}
+
 void reversible_forward_horizontal_refactored(const param_atk *atk,
                                               const line_buf *ldst,
                                               const line_buf *hdst,
@@ -60,28 +79,11 @@ void reversible_forward_horizontal_refactored(const param_atk *atk,
 {
     if (width > 1)
     {
-        // combine both lsrc and hsrc into dst
-        si32 *dph = hdst->i32;
-        si32 *dpl = ldst->i32;
-        si32 *sp = src->i32;
-        ui32 w = width;
-        if (!even)
-        {
-            *dph++ = *sp++;
-            --w;
-        }
-        for (; w > 1; w -= 2)
-        {
-            *dpl++ = *sp++;
-            *dph++ = *sp++;
-        }
-        if (w)
-        {
-            *dpl++ = *sp++;
-            --w;
-        }
+        // copy odd source values to dph and even source values to dpl
+        split_source(hdst->i32, ldst->i32, src->i32, width, even);
 
-        si32 *hp = hdst->i32, *lp = ldst->i32;
+        si32 *hp = hdst->i32;
+        si32 *lp = ldst->i32;
         ui32 l_width = (width + (even ? 1 : 0)) >> 1; // low pass
         ui32 h_width = (width + (even ? 0 : 1)) >> 1; // high pass
         ui32 num_steps = atk->get_num_steps();
@@ -96,6 +98,7 @@ void reversible_forward_horizontal_refactored(const param_atk *atk,
             // extension
             lp[-1] = lp[0];
             lp[l_width] = lp[l_width - 1];
+
             // lifting step
             const si32 *sp = lp + (even ? 1 : 0);
             si32 *dp = hp;
@@ -125,10 +128,12 @@ void reversible_forward_horizontal_refactored(const param_atk *atk,
             si32 *t = lp;
             lp = hp;
             hp = t;
-            even = !even;
+
             ui32 w = l_width;
             l_width = h_width;
             h_width = w;
+
+            even = !even;
         }
     }
     else
